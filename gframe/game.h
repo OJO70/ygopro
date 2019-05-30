@@ -51,10 +51,6 @@ struct Config {
 	double sound_volume;
 	double music_volume;
 	int music_mode;
-	bool window_maximized;
-	int window_width;
-	int window_height;
-	bool resize_popup_menu;
 };
 
 struct DuelInfo {
@@ -124,7 +120,6 @@ public:
 	void CheckMutual(ClientCard* pcard, int mark);
 	void DrawCards();
 	void DrawCard(ClientCard* pcard);
-	void DrawShadowText(irr::gui::CGUITTFont* font, const core::stringw& text, const core::rect<s32>& position, const core::rect<s32>& padding, video::SColor color = 0xffffffff, video::SColor shadowcolor = 0xff000000, bool hcenter = false, bool vcenter = false, const core::rect<s32>* clip = 0);
 	void DrawMisc();
 	void DrawStatus(ClientCard* pcard, int x1, int y1, int x2, int y2);
 	void DrawGUI();
@@ -134,11 +129,11 @@ public:
 	void HideElement(irr::gui::IGUIElement* element, bool set_action = false);
 	void PopupElement(irr::gui::IGUIElement* element, int hideframe = 0);
 	void WaitFrameSignal(int frame);
-	void DrawThumb(code_pointer cp, position2di pos, std::unordered_map<int, int>* lflist, bool drag = false);
+	void DrawThumb(code_pointer cp, position2di pos, std::unordered_map<int, int>* lflist);
 	void DrawDeckBd();
 	void LoadConfig();
 	void SaveConfig();
-	void ShowCardInfo(int code, bool resize = false);
+	void ShowCardInfo(int code);
 	void ClearCardInfo(int player = 0);
 	void AddLog(const wchar_t* msg, int param = 0);
 	void AddChatMsg(const wchar_t* msg, int player);
@@ -156,22 +151,7 @@ public:
 		return focus && focus->hasType(type);
 	}
 
-	void OnResize();
-	recti Resize(s32 x, s32 y, s32 x2, s32 y2);
-	recti Resize(s32 x, s32 y, s32 x2, s32 y2, s32 dx, s32 dy, s32 dx2, s32 dy2);
-	position2di Resize(s32 x, s32 y);
-	position2di ResizeReverse(s32 x, s32 y);
-	recti ResizePhaseHint(s32 x, s32 y, s32 x2, s32 y2, s32 width);
-	recti ResizeWin(s32 x, s32 y, s32 x2, s32 y2);
-	recti ResizeCardImgWin(s32 x, s32 y, s32 mx, s32 my);
-	recti ResizeCardHint(s32 x, s32 y, s32 x2, s32 y2);
-	position2di ResizeCardHint(s32 x, s32 y);
-	recti ResizeCardMid(s32 x, s32 y, s32 x2, s32 y2, s32 midx, s32 midy);
-	position2di ResizeCardMid(s32 x, s32 y, s32 midx, s32 midy);
-	recti ResizeFit(s32 x, s32 y, s32 x2, s32 y2);
-
 	void SetWindowsIcon();
-	void SetWindowsScale(float scale);
 	void FlashWindow();
 	void SetCursor(ECURSOR_ICON icon);
 
@@ -200,7 +180,6 @@ public:
 	int waitFrame;
 	int signalFrame;
 	int actionParam;
-	int showingcode;
 	const wchar_t* showingtext;
 	int showcard;
 	int showcardcode;
@@ -222,10 +201,6 @@ public:
 
 	bool is_building;
 	bool is_siding;
-
-	irr::core::dimension2d<irr::u32> window_size;
-	float xScale;
-	float yScale;
 
 	ClientField dField;
 	DeckBuilder deckBuilder;
@@ -265,9 +240,6 @@ public:
 	irr::gui::IGUIListBox* lstLog;
 	irr::gui::IGUIButton* btnClearLog;
 	irr::gui::IGUIButton* btnSaveLog;
-	irr::gui::IGUIWindow* tabHelper;
-	irr::gui::IGUIElement* elmTabHelperLast;
-	irr::gui::IGUIScrollBar* scrTabHelper;
 	irr::gui::IGUICheckBox* chkMAutoPos;
 	irr::gui::IGUICheckBox* chkSTAutoPos;
 	irr::gui::IGUICheckBox* chkRandomPos;
@@ -275,9 +247,6 @@ public:
 	irr::gui::IGUICheckBox* chkWaitChain;
 	irr::gui::IGUICheckBox* chkQuickAnimation;
 	irr::gui::IGUICheckBox* chkAutoSaveReplay;
-	irr::gui::IGUIWindow* tabSystem;
-	irr::gui::IGUIElement* elmTabSystemLast;
-	irr::gui::IGUIScrollBar* scrTabSystem;
 	irr::gui::IGUICheckBox* chkIgnoreDeckChanges;
 	irr::gui::IGUICheckBox* chkAutoSearch;
 	irr::gui::IGUICheckBox* chkMultiKeywords;
@@ -287,10 +256,6 @@ public:
 	irr::gui::IGUIScrollBar* scrSoundVolume;
 	irr::gui::IGUIScrollBar* scrMusicVolume;
 	irr::gui::IGUICheckBox* chkMusicMode;
-	irr::gui::IGUIButton* btnWinResizeS;
-	irr::gui::IGUIButton* btnWinResizeM;
-	irr::gui::IGUIButton* btnWinResizeL;
-	irr::gui::IGUIButton* btnWinResizeXL;
 	//main menu
 	irr::gui::IGUIWindow* wMainMenu;
 	irr::gui::IGUIButton* btnLanMode;
@@ -468,17 +433,6 @@ public:
 	irr::gui::IGUIButton* btnSideSort;
 	irr::gui::IGUIButton* btnSideReload;
 	irr::gui::IGUIEditBox* ebDeckname;
-	irr::gui::IGUIStaticText* stBanlist;
-	irr::gui::IGUIStaticText* stDeck;
-	irr::gui::IGUIStaticText* stCategory;
-	irr::gui::IGUIStaticText* stLimit;
-	irr::gui::IGUIStaticText* stAttribute;
-	irr::gui::IGUIStaticText* stRace;
-	irr::gui::IGUIStaticText* stAttack;
-	irr::gui::IGUIStaticText* stDefense;
-	irr::gui::IGUIStaticText* stStar;
-	irr::gui::IGUIStaticText* stSearch;
-	irr::gui::IGUIStaticText* stScale;
 	//filter
 	irr::gui::IGUIStaticText* wFilter;
 	irr::gui::IGUIScrollBar* scrFilter;
@@ -693,10 +647,6 @@ extern Game* mainGame;
 #define CHECKBOX_ENABLE_MUSIC		362
 #define SCROLL_VOLUME				363
 #define CHECKBOX_DISABLE_CHAT		364
-#define BUTTON_WINDOW_RESIZE_S		365
-#define BUTTON_WINDOW_RESIZE_M		366
-#define BUTTON_WINDOW_RESIZE_L		367
-#define BUTTON_WINDOW_RESIZE_XL		368
 #define CHECKBOX_QUICK_ANIMATION	369
 #define SCROLL_TAB_HELPER			370
 #define SCROLL_TAB_SYSTEM			371
