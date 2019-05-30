@@ -77,13 +77,17 @@ int main(int argc, char* argv[]) {
 	bool keep_on_return = false;
 	for(int i = 1; i < wargc; ++i) {
 		if(wargv[i][0] == L'-' && wargv[i][1] == L'e' && wargv[i][2] != L'\0') {
-			ygo::dataManager.LoadDB(&wargv[i][2]);
+			char param[128];
+			BufferIO::EncodeUTF8(&wargv[i][2], param);
+			ygo::dataManager.LoadDB(param);
 			continue;
 		}
 		if(!wcscmp(wargv[i], L"-e")) { // extra database
 			++i;
 			if(i < wargc) {
-				ygo::dataManager.LoadDB(wargv[i]);
+				char param[128];
+				BufferIO::EncodeUTF8(wargv[i], param);
+				ygo::dataManager.LoadDB(param);
 			}
 			continue;
 		} else if(!wcscmp(wargv[i], L"-n")) { // nickName
