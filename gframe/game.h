@@ -433,6 +433,7 @@ public:
 	irr::gui::IGUIButton* btnSideSort;
 	irr::gui::IGUIButton* btnSideReload;
 	irr::gui::IGUIEditBox* ebDeckname;
+	irr::gui::IGUIButton* btnSetDefaultDeck;
 	//filter
 	irr::gui::IGUIStaticText* wFilter;
 	irr::gui::IGUIScrollBar* scrFilter;
@@ -549,6 +550,7 @@ extern Game* mainGame;
 #define LISTBOX_BOT_LIST			153
 #define BUTTON_BOT_START			154
 #define CHECKBOX_BOT_OLD_RULE		155
+#define BUTTON_CANCEL_SINGLEPLAY	160
 #define EDITBOX_CHAT				199
 
 #define BUTTON_MSG_OK				200

@@ -483,6 +483,7 @@ bool Game::Initialize() {
 	for(unsigned int i = 0; i < deckManager._lfList.size(); ++i)
 		cbDBLFList->addItem(deckManager._lfList[i].listName);
 	btnSaveDeck = env->addButton(rect<s32>(225, 35, 290, 60), wDeckEdit, BUTTON_SAVE_DECK, dataManager.GetSysString(1302));
+	btnSetDefaultDeck = env->addButton(rect<s32>(225, 5, 290, 30), wDeckEdit, BUTTON_SET_DEFAULT_DECK, dataManager.GetSysString(1361));
 	ebDeckname = env->addEditBox(L"", rect<s32>(80, 65, 220, 90), true, wDeckEdit, -1);
 	ebDeckname->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	btnSaveDeckAs = env->addButton(rect<s32>(225, 65, 290, 90), wDeckEdit, BUTTON_SAVE_DECK_AS, dataManager.GetSysString(1303));

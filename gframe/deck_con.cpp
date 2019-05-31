@@ -145,6 +145,10 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 				std::random_shuffle(deckManager.current_deck.main.begin(), deckManager.current_deck.main.end());
 				break;
 			}
+			case BUTTON_SET_DEFAULT_DECK: {
+				deckManager.SetDefaultDeck(mainGame->cbDBDecks->getItem(mainGame->cbDBDecks->getSelected()));
+				break;
+			}
 			case BUTTON_SAVE_DECK: {
 				int sel = mainGame->cbDBDecks->getSelected();
 				if(sel >= 0 && deckManager.SaveDeck(deckManager.current_deck, mainGame->cbDBDecks->getItem(sel))) {

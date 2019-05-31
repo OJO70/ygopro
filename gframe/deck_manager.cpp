@@ -266,4 +266,20 @@ bool DeckManager::DeleteDeck(Deck& deck, const wchar_t* name) {
 	return result == 0;
 #endif
 }
+bool DeckManager::SetDefaultDeck(const wchar_t* name) {
+	wchar_t file[64];
+	myswprintf(file, L"./default/default.conf");
+#ifdef WIN32
+	FILE* fp = _wfopen(file, L"w");
+#else
+	char filefn[256];
+	BufferIO::EncodeUTF8(file, filefn);
+	FILE* fp = fopen(filefn, "w");
+#endif
+	if (!fp)
+		return false;
+	fprintf(fp, "%ls", name);
+	fclose(fp);
+	return true;
+}
 }
