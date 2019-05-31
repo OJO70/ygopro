@@ -78,7 +78,7 @@ bool Game::Initialize() {
 	}
 	smgr = device->getSceneManager();
 	device->setWindowCaption(L"YGOPro");
-	device->setResizable(false);
+	device->setResizable(true);
 #ifdef _WIN32
 	irr::video::SExposedVideoData exposedData = driver->getExposedVideoData();
 	if(gameConf.use_d3d)
@@ -474,10 +474,10 @@ bool Game::Initialize() {
 	//deck edit
 	wDeckEdit = env->addStaticText(L"", rect<s32>(309, 5, 605, 130), true, false, 0, -1, true);
 	wDeckEdit->setVisible(false);
-	env->addStaticText(dataManager.GetSysString(1300), rect<s32>(10, 9, 100, 29), false, false, wDeckEdit);
+	stLabel1 = env->addStaticText(dataManager.GetSysString(1300), rect<s32>(10, 9, 100, 29), false, false, wDeckEdit);
 	cbDBLFList = env->addComboBox(rect<s32>(80, 5, 223, 30), wDeckEdit, COMBOBOX_DBLFLIST);
 	cbDBLFList->setMaxSelectionRows(10);
-	env->addStaticText(dataManager.GetSysString(1301), rect<s32>(10, 39, 100, 59), false, false, wDeckEdit);
+	stLabel2 = env->addStaticText(dataManager.GetSysString(1301), rect<s32>(10, 39, 100, 59), false, false, wDeckEdit);
 	cbDBDecks = env->addComboBox(rect<s32>(80, 35, 223, 60), wDeckEdit, COMBOBOX_DBDECKS);
 	cbDBDecks->setMaxSelectionRows(15);
 	for(unsigned int i = 0; i < deckManager._lfList.size(); ++i)
@@ -515,7 +515,7 @@ bool Game::Initialize() {
 	//filters
 	wFilter = env->addStaticText(L"", rect<s32>(610, 5, 1020, 130), true, false, 0, -1, true);
 	wFilter->setVisible(false);
-	env->addStaticText(dataManager.GetSysString(1311), rect<s32>(10, 25 / 6 + 2, 70, 22 + 25 / 6), false, false, wFilter);
+	stLabel3 = env->addStaticText(dataManager.GetSysString(1311), rect<s32>(10, 25 / 6 + 2, 70, 22 + 25 / 6), false, false, wFilter);
 	cbCardType = env->addComboBox(rect<s32>(60, 25 / 6, 120, 20 + 25 / 6), wFilter, COMBOBOX_MAINTYPE);
 	cbCardType->addItem(dataManager.GetSysString(1310));
 	cbCardType->addItem(dataManager.GetSysString(1312));
@@ -524,7 +524,7 @@ bool Game::Initialize() {
 	cbCardType2 = env->addComboBox(rect<s32>(125, 25 / 6, 200, 20 + 25 / 6), wFilter, COMBOBOX_SECONDTYPE);
 	cbCardType2->setMaxSelectionRows(10);
 	cbCardType2->addItem(dataManager.GetSysString(1310), 0);
-	env->addStaticText(dataManager.GetSysString(1315), rect<s32>(205, 2 + 25 / 6, 280, 22 + 25 / 6), false, false, wFilter);
+	stLabel4 = env->addStaticText(dataManager.GetSysString(1315), rect<s32>(205, 2 + 25 / 6, 280, 22 + 25 / 6), false, false, wFilter);
 	cbLimit = env->addComboBox(rect<s32>(260, 25 / 6, 390, 20 + 25 / 6), wFilter, COMBOBOX_LIMIT);
 	cbLimit->setMaxSelectionRows(10);
 	cbLimit->addItem(dataManager.GetSysString(1310));
@@ -535,31 +535,32 @@ bool Game::Initialize() {
 	cbLimit->addItem(dataManager.GetSysString(1241));
 	cbLimit->addItem(dataManager.GetSysString(1242));
 	cbLimit->addItem(dataManager.GetSysString(1243));
-	env->addStaticText(dataManager.GetSysString(1319), rect<s32>(10, 22 + 50 / 6, 70, 42 + 50 / 6), false, false, wFilter);
+	stLabel5 = env->addStaticText(dataManager.GetSysString(1319), rect<s32>(10, 22 + 50 / 6, 70, 42 + 50 / 6), false, false, wFilter);
 	cbAttribute = env->addComboBox(rect<s32>(60, 20 + 50 / 6, 190, 40 + 50 / 6), wFilter, COMBOBOX_ATTRIBUTE);
 	cbAttribute->setMaxSelectionRows(10);
 	cbAttribute->addItem(dataManager.GetSysString(1310), 0);
 	for(int filter = 0x1; filter != 0x80; filter <<= 1)
 		cbAttribute->addItem(dataManager.FormatAttribute(filter), filter);
-	env->addStaticText(dataManager.GetSysString(1321), rect<s32>(10, 42 + 75 / 6, 70, 62 + 75 / 6), false, false, wFilter);
+	stLabel6 = env->addStaticText(dataManager.GetSysString(1321), rect<s32>(10, 42 + 75 / 6, 70, 62 + 75 / 6), false, false, wFilter);
 	cbRace = env->addComboBox(rect<s32>(60, 40 + 75 / 6, 190, 60 + 75 / 6), wFilter, COMBOBOX_RACE);
 	cbRace->setMaxSelectionRows(10);
 	cbRace->addItem(dataManager.GetSysString(1310), 0);
 	for(int filter = 0x1; filter != 0x2000000; filter <<= 1)
 		cbRace->addItem(dataManager.FormatRace(filter), filter);
-	env->addStaticText(dataManager.GetSysString(1322), rect<s32>(205, 22 + 50 / 6, 280, 42 + 50 / 6), false, false, wFilter);
+	stLabel7 = env->addStaticText(dataManager.GetSysString(1322), rect<s32>(205, 22 + 50 / 6, 280, 42 + 50 / 6), false, false, wFilter);
 	ebAttack = env->addEditBox(L"", rect<s32>(260, 20 + 50 / 6, 340, 40 + 50 / 6), true, wFilter);
 	ebAttack->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
-	env->addStaticText(dataManager.GetSysString(1323), rect<s32>(205, 42 + 75 / 6, 280, 62 + 75 / 6), false, false, wFilter);
+	stLabel8 = env->addStaticText(dataManager.GetSysString(1323), rect<s32>(205, 42 + 75 / 6, 280, 62 + 75 / 6), false, false, wFilter);
 	ebDefense = env->addEditBox(L"", rect<s32>(260, 40 + 75 / 6, 340, 60 + 75 / 6), true, wFilter);
 	ebDefense->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
-	env->addStaticText(dataManager.GetSysString(1324), rect<s32>(10, 62 + 100 / 6, 80, 82 + 100 / 6), false, false, wFilter);
+	stLabel9 = env->addStaticText(dataManager.GetSysString(1324), rect<s32>(10, 62 + 100 / 6, 80, 82 + 100 / 6), false, false, wFilter);
 	ebStar = env->addEditBox(L"", rect<s32>(60, 60 + 100 / 6, 100, 80 + 100 / 6), true, wFilter);
 	ebStar->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
-	env->addStaticText(dataManager.GetSysString(1336), rect<s32>(101, 62 + 100 / 6, 150, 82 + 100 / 6), false, false, wFilter);
+	stLabel12 = env->addStaticText(dataManager.GetSysString(1336), rect<s32>(101, 62 + 100 / 6, 150, 82 + 100 / 6), false, false, wFilter);
+	stLabel12->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_UPPERLEFT);
 	ebScale = env->addEditBox(L"", rect<s32>(150, 60 + 100 / 6, 190, 80 + 100 / 6), true, wFilter);
 	ebScale->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
-	env->addStaticText(dataManager.GetSysString(1325), rect<s32>(205, 62 + 100 / 6, 280, 82 + 100 / 6), false, false, wFilter);
+	stLabel10 = env->addStaticText(dataManager.GetSysString(1325), rect<s32>(205, 62 + 100 / 6, 280, 82 + 100 / 6), false, false, wFilter);
 	ebCardName = env->addEditBox(L"", rect<s32>(260, 60 + 100 / 6, 390, 80 + 100 / 6), true, wFilter, EDITBOX_KEYWORD);
 	ebCardName->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	btnEffectFilter = env->addButton(rect<s32>(345, 20 + 50 / 6, 390, 60 + 75 / 6), wFilter, BUTTON_EFFECT_FILTER, dataManager.GetSysString(1326));
@@ -603,9 +604,9 @@ bool Game::Initialize() {
 	btnDeleteReplay = env->addButton(rect<s32>(360, 355, 460, 380), wReplay, BUTTON_DELETE_REPLAY, dataManager.GetSysString(1361));
 	btnRenameReplay = env->addButton(rect<s32>(360, 385, 460, 410), wReplay, BUTTON_RENAME_REPLAY, dataManager.GetSysString(1362));
 	btnReplayCancel = env->addButton(rect<s32>(470, 385, 570, 410), wReplay, BUTTON_CANCEL_REPLAY, dataManager.GetSysString(1347));
-	env->addStaticText(dataManager.GetSysString(1349), rect<s32>(360, 30, 570, 50), false, true, wReplay);
+	stLabel11 = env->addStaticText(dataManager.GetSysString(1349), rect<s32>(360, 30, 570, 50), false, true, wReplay);
 	stReplayInfo = env->addStaticText(L"", rect<s32>(360, 60, 570, 350), false, true, wReplay);
-	env->addStaticText(dataManager.GetSysString(1353), rect<s32>(360, 275, 570, 295), false, true, wReplay);
+	stLabel13 = env->addStaticText(dataManager.GetSysString(1353), rect<s32>(360, 275, 570, 295), false, true, wReplay);
 	ebRepStartTurn = env->addEditBox(L"", rect<s32>(360, 300, 460, 320), true, wReplay, -1);
 	ebRepStartTurn->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	//single play window
@@ -636,13 +637,13 @@ bool Game::Initialize() {
 	lstSinglePlayList->setItemHeight(18);
 	btnLoadSinglePlay = env->addButton(rect<s32>(459, 301, 569, 326), tabSingle, BUTTON_LOAD_SINGLEPLAY, dataManager.GetSysString(1211));
 	btnSinglePlayCancel = env->addButton(rect<s32>(459, 331, 569, 356), tabSingle, BUTTON_CANCEL_SINGLEPLAY, dataManager.GetSysString(1210));
-	env->addStaticText(dataManager.GetSysString(1352), rect<s32>(360, 10, 550, 30), false, true, tabSingle);
+	stLabel14 = env->addStaticText(dataManager.GetSysString(1352), rect<s32>(360, 10, 550, 30), false, true, tabSingle);
 	stSinglePlayInfo = env->addStaticText(L"", rect<s32>(360, 40, 560, 280), false, true, tabSingle);
 	//replay save
 	wReplaySave = env->addWindow(rect<s32>(510, 200, 820, 320), false, dataManager.GetSysString(1340));
 	wReplaySave->getCloseButton()->setVisible(false);
 	wReplaySave->setVisible(false);
-	env->addStaticText(dataManager.GetSysString(1342), rect<s32>(20, 25, 290, 45), false, false, wReplaySave);
+	stLabel15 = env->addStaticText(dataManager.GetSysString(1342), rect<s32>(20, 25, 290, 45), false, false, wReplaySave);
 	ebRSName =  env->addEditBox(L"", rect<s32>(20, 50, 290, 70), true, wReplaySave, -1);
 	ebRSName->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	btnRSYes = env->addButton(rect<s32>(70, 80, 140, 105), wReplaySave, BUTTON_REPLAY_SAVE, dataManager.GetSysString(1341));
@@ -736,6 +737,11 @@ void Game::MainLoop() {
 	int fps = 0;
 	int cur_time = 0;
 	while(device->run()) {
+		dimension2du size = driver->getScreenSize();
+		if (window_size != size) {
+			window_size = size;
+			OnResize();
+		}
 		linePatternD3D = (linePatternD3D + 1) % 30;
 		linePatternGL = (linePatternGL << 1) | (linePatternGL >> 15);
 		atkframe += 0.1f;
@@ -1228,15 +1234,15 @@ void Game::ShowCardInfo(int code) {
 		}
 		stDataInfo->setText(formatBuffer);
 		stSetName->setRelativePosition(rect<s32>(15, 83, 296, 106));
-		stText->setRelativePosition(rect<s32>(15, 83 + offset, 287, 324));
-		scrCardText->setRelativePosition(rect<s32>(267, 83 + offset, 287, 324));
+		stText->setRelativePosition(ResizeSizeOnly(15, 83 + offset, 287, 324));
+		scrCardText->setRelativePosition(ResizeSizeOnly(267, 83 + offset, 287, 324));
 	} else {
 		myswprintf(formatBuffer, L"[%ls]", dataManager.FormatType(cd.type));
 		stInfo->setText(formatBuffer);
 		stDataInfo->setText(L"");
 		stSetName->setRelativePosition(rect<s32>(15, 60, 296, 83));
-		stText->setRelativePosition(rect<s32>(15, 60 + offset, 287, 324));
-		scrCardText->setRelativePosition(rect<s32>(267, 60 + offset, 287, 324));
+		stText->setRelativePosition(ResizeSizeOnly(15, 60 + offset, 287, 324));
+		scrCardText->setRelativePosition(ResizeSizeOnly(267, 60 + offset, 287, 324));
 	}
 	showingtext = dataManager.GetText(code);
 	const auto& tsize = stText->getRelativePosition();
@@ -1420,5 +1426,206 @@ void Game::SetCursor(ECURSOR_ICON icon) {
 		cursor->setActiveIcon(icon);
 	}
 }
+void Game::OnResize()
+{
+	wMainMenu->setRelativePosition(ResizeWin(370, 200, 650, 415));
+	wLanWindow->setRelativePosition(ResizeWin(220, 100, 800, 520));
+	wCreateHost->setRelativePosition(ResizeWin(320, 100, 700, 520));
+	wHostPrepare->setRelativePosition(ResizeWin(270, 120, 750 + 50, 440));
+	wReplay->setRelativePosition(ResizeWin(220, 100, 800, 520));
+	wSinglePlay->setRelativePosition(ResizeWin(220, 100, 800, 520));
+	wHand->setRelativePosition(ResizeWin(500, 450, 825, 605));
+	wFTSelect->setRelativePosition(ResizeWin(550, 240, 780, 340));
+	wMessage->setRelativePosition(ResizeWin(490, 200, 840, 340));
+	wACMessage->setRelativePosition(ResizeWin(490, 240, 840, 300));
+	wQuery->setRelativePosition(ResizeWin(490, 200, 840, 340));
+	wOptions->setRelativePosition(ResizeWin(490, 200, 840, 340));
+	wPosSelect->setRelativePosition(ResizeWin(340, 200, 935, 410));
+	wCardSelect->setRelativePosition(ResizeWin(320, 100, 1000, 400));
+	wANNumber->setRelativePosition(ResizeWin(550, 200, 780, 295));
+	wANCard->setRelativePosition(ResizeWin(560, 170, 970, 370));
+	wANAttribute->setRelativePosition(ResizeWin(500, 200, 830, 285));
+	wANRace->setRelativePosition(ResizeWin(480, 200, 850, 385));
+	wReplaySave->setRelativePosition(ResizeWin(510, 200, 820, 320));
+	stHintMsg->setRelativePosition(ResizeWin(500, 60, 820, 90));
 
+	wChat->setRelativePosition(ResizeWin(305, 615, 1020, 640, true));
+	ebChatInput->setRelativePosition(recti(3, 2, window_size.Width - wChat->getRelativePosition().UpperLeftCorner.X - 6, 22));
+
+	wCardImg->setRelativePosition(Resize(1, 1, 199, 273));
+	imgCard->setRelativePosition(Resize(10, 9, 187, 263));
+	wInfos->setRelativePosition(Resize(1, 275, 301, 639));
+	stName->setRelativePosition(recti(10, 10, 287 * window_size.Width / 1024, 32));
+	stInfo->setRelativePosition(recti(15, 37, 296 * window_size.Width / 1024, 60));
+	stDataInfo->setRelativePosition(recti(15, 60, 296 * window_size.Width / 1024, 83));
+	lstLog->setRelativePosition(Resize(10, 10, 290, 290));
+	btnClearLog->setRelativePosition(Resize(160, 300, 260, 325));
+
+	btnLeaveGame->setRelativePosition(Resize(205, 5, 295, 80));
+	wReplayControl->setRelativePosition(Resize(205, 143, 295, 273));
+	btnReplayStart->setRelativePosition(Resize(5, 5, 85, 25));
+	btnReplayPause->setRelativePosition(Resize(5, 5, 85, 25));
+	btnReplayStep->setRelativePosition(Resize(5, 55, 85, 75));
+	btnReplayUndo->setRelativePosition(Resize(5, 80, 85, 100));
+	btnReplaySwap->setRelativePosition(Resize(5, 30, 85, 50));
+	btnReplayExit->setRelativePosition(Resize(5, 105, 85, 125));
+
+	btnMarksFilter->setRelativePosition(Resize(60, 80 + 125 / 6, 190, 100 + 125 / 6));
+	wLinkMarks->setRelativePosition(Resize(700, 30, 820, 150));
+	btnMarksOK->setRelativePosition(Resize(45, 45, 75, 75));
+	btnMark[0]->setRelativePosition(Resize(10, 10, 40, 40));
+	btnMark[1]->setRelativePosition(Resize(45, 10, 75, 40));
+	btnMark[2]->setRelativePosition(Resize(80, 10, 110, 40));
+	btnMark[3]->setRelativePosition(Resize(10, 45, 40, 75));
+	btnMark[4]->setRelativePosition(Resize(80, 45, 110, 75));
+	btnMark[5]->setRelativePosition(Resize(10, 80, 40, 110));
+	btnMark[6]->setRelativePosition(Resize(45, 80, 75, 110));
+	btnMark[7]->setRelativePosition(Resize(80, 80, 110, 110));
+
+	wDeckEdit->setRelativePosition(Resize(309, 8, 605, 130));
+	cbDBLFList->setRelativePosition(Resize(80, 5, 223, 30));
+	cbDBDecks->setRelativePosition(Resize(80, 35, 223, 60));
+	btnClearDeck->setRelativePosition(Resize(109, 99, 154, 120));
+	btnGetDeck->setRelativePosition(Resize(156, 99, 223, 120));
+	btnSortDeck->setRelativePosition(Resize(62, 99, 107, 120));
+	btnSetDefaultDeck->setRelativePosition(Resize(225, 5, 290, 30));
+	btnShuffleDeck->setRelativePosition(Resize(5, 99, 60, 120));
+	btnSaveDeck->setRelativePosition(Resize(225, 35, 290, 60));
+	btnSaveDeckAs->setRelativePosition(Resize(225, 65, 290, 90));
+	ebDeckname->setRelativePosition(Resize(80, 65, 223, 90));
+
+	wSort->setRelativePosition(Resize(930, 132, 1020, 156));
+	cbSortType->setRelativePosition(Resize(10, 2, 85, 22));
+	wFilter->setRelativePosition(Resize(610, 8, 1020, 130));
+	scrFilter->setRelativePosition(Resize(999, 161, 1019, 629));
+	cbCardType->setRelativePosition(Resize(60, 3, 120, 23));
+	cbCardType2->setRelativePosition(Resize(130, 3, 190, 23));
+	cbRace->setRelativePosition(Resize(60, 49, 190, 69));
+	cbAttribute->setRelativePosition(Resize(60, 26, 190, 46));
+	cbLimit->setRelativePosition(Resize(260, 3, 390, 23));
+	ebStar->setRelativePosition(Resize(60, 72, 100, 92));
+	ebScale->setRelativePosition(Resize(150, 72, 190, 92));
+	ebAttack->setRelativePosition(Resize(260, 26, 340, 46));
+	ebDefense->setRelativePosition(Resize(260, 49, 340, 69));
+	ebCardName->setRelativePosition(Resize(260, 72, 390, 92));
+	btnEffectFilter->setRelativePosition(Resize(345, 28, 390, 69));
+	btnStartFilter->setRelativePosition(Resize(260, 96, 390, 118));
+	btnClearFilter->setRelativePosition(Resize(205, 96, 255, 118));
+
+	stLabel1->setRelativePosition(Resize(10, 9, 100, 29));
+	stLabel2->setRelativePosition(Resize(10, 39, 100, 59));
+	stLabel3->setRelativePosition(Resize(10, 25 / 6 + 2, 70, 22 + 25 / 6));
+	stLabel4->setRelativePosition(Resize(205, 2 + 25 / 6, 280, 22 + 25 / 6));
+	stLabel5->setRelativePosition(Resize(10, 22 + 50 / 6, 70, 42 + 50 / 6));
+	stLabel6->setRelativePosition(Resize(10, 42 + 75 / 6, 70, 62 + 75 / 6));
+	stLabel7->setRelativePosition(Resize(205, 22 + 50 / 6, 280, 42 + 50 / 6));
+	stLabel8->setRelativePosition(Resize(205, 42 + 75 / 6, 280, 62 + 75 / 6));
+	stLabel9->setRelativePosition(Resize(10, 62 + 100 / 6, 80, 82 + 100 / 6));
+	stLabel10->setRelativePosition(Resize(205, 62 + 100 / 6, 280, 82 + 100 / 6));
+	stLabel11->setRelativePosition(Resize(360, 30, 570, 50));
+	stLabel12->setRelativePosition(Resize(101, 62 + 100 / 6, 150, 82 + 100 / 6));
+	stLabel13->setRelativePosition(Resize(360, 275, 570, 295));
+	stLabel14->setRelativePosition(Resize(360, 30, 570, 50));
+	stLabel15->setRelativePosition(ResizeSizeOnly(20, 25, 290, 45));
+
+	btnSideOK->setRelativePosition(Resize(510, 40, 820, 80));
+	btnDeleteDeck->setRelativePosition(Resize(225, 95, 290, 120));
+
+	wPhase->setRelativePosition(Resize(480, 310, 855, 330));
+	btnPhaseStatus->setRelativePosition(Resize(0, 0, 50, 20));
+	btnBP->setRelativePosition(Resize(160, 0, 210, 20));
+	btnM2->setRelativePosition(Resize(160, 0, 210, 20));
+	btnEP->setRelativePosition(Resize(320, 0, 370, 20));
+	btnChainAlways->setRelativePosition(Resize(205, 140, 295, 175));
+	btnChainIgnore->setRelativePosition(Resize(205, 100, 295, 135));
+	btnChainWhenAvail->setRelativePosition(Resize(205, 180, 295, 215));
+	btnShuffle->setRelativePosition(Resize(205, 230, 295, 265));
+	btnCancelOrFinish->setRelativePosition(Resize(205, 230, 295, 265));
+
+	wCategories->setRelativePosition(Resize(630, 60, 1000, 270));
+	btnCategoryOK->setRelativePosition(Resize(135, 175, 235, 200));
+	for (int i = 0; i < 32; ++i)
+		chkCategory[i]->setRelativePosition(Resize(10 + (i % 4) * 90, 10 + (i / 4) * 20, 100 + (i % 4) * 90, 30 + (i / 4) * 20));
+
+	if (displayedcard > 0)
+		ShowCardInfo(displayedcard);
+}
+recti Game::Resize(s32 x, s32 y, s32 x2, s32 y2)
+{
+	x = x * window_size.Width / 1024;
+	y = y * window_size.Height / 640;
+	x2 = x2 * window_size.Width / 1024;
+	y2 = y2 * window_size.Height / 640;
+	return recti(x, y, x2, y2);
+}
+recti Game::ResizeSizeOnly(s32 x, s32 y, s32 x2, s32 y2)
+{
+	x2 = x2 * window_size.Width / 1024;
+	y2 = y2 * window_size.Height / 640;
+	return recti(x, y, x2, y2);
+}
+recti Game::Resize(s32 x, s32 y, s32 x2, s32 y2, s32 dx, s32 dy, s32 dx2, s32 dy2)
+{
+	x = x * window_size.Width / 1024 + dx;
+	y = y * window_size.Height / 640 + dy;
+	x2 = x2 * window_size.Width / 1024 + dx2;
+	y2 = y2 * window_size.Height / 640 + dy2;
+	return recti(x, y, x2, y2);
+}
+position2di Game::Resize(s32 x, s32 y, bool reverse)
+{
+	if (reverse)
+	{
+		x = x * 1024 / window_size.Width;
+		y = y * 640 / window_size.Height;
+	}
+	else
+	{
+		x = x * window_size.Width / 1024;
+		y = y * window_size.Height / 640;
+	}
+	return position2di(x, y);
+}
+recti Game::ResizeWin(s32 x, s32 y, s32 x2, s32 y2, bool chat)
+{
+	s32 sx = x2 - x;
+	s32 sy = y2 - y;
+	if (chat)
+	{
+		y = window_size.Height - sy;
+		x2 = window_size.Width;
+		y2 = y + sy;
+		return recti(x, y, x2, y2);
+	}
+	x = (x + sx / 2) * window_size.Width / 1024 - sx / 2;
+	y = (y + sy / 2) * window_size.Height / 640 - sy / 2;
+	x2 = sx + x;
+	y2 = sy + y;
+	return recti(x, y, x2, y2);
+}
+recti Game::ResizeElem(s32 x, s32 y, s32 x2, s32 y2)
+{
+	s32 sx = x2 - x;
+	s32 sy = y2 - y;
+	x = (x + sx / 2 - 100) * window_size.Width / 1024 - sx / 2 + 100;
+	y = y * window_size.Height / 640;
+	x2 = sx + x;
+	y2 = sy + y;
+	return recti(x, y, x2, y2);
+}
+int Game::ExtractColor(const stringw name, CGUISkinSystem *skinSystem, unsigned int normalColor)
+{
+	// Convert and apply special color
+	stringw spccolor = skinSystem->getProperty(name);
+	if (!spccolor.empty())
+	{
+		unsigned int x;
+		std::wstringstream ss;
+		ss << std::hex << spccolor.c_str();
+		ss >> x;
+		if (!ss.fail())
+			return x;
+	}
+	return normalColor;
+}
 }

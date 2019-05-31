@@ -1032,10 +1032,11 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 		case irr::EMIE_LMOUSE_LEFT_UP: {
 			if(!mainGame->dInfo.isStarted)
 				break;
-			s32 x = event.MouseInput.X;
-			s32 y = event.MouseInput.Y;
 			hovered_location = 0;
-			irr::core::position2di pos(x, y);
+			position2di pos = mainGame->Resize(event.MouseInput.X, event.MouseInput.Y, true);
+			position2di mousepos(event.MouseInput.X, event.MouseInput.Y);
+			s32 x = pos.X;
+			s32 y = pos.Y;
 			if(x < 300)
 				break;
 			if(mainGame->gameConf.control_mode == 1) {
@@ -1044,7 +1045,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 				mainGame->chain_when_avail = false;
 				UpdateChainButtons();
 			}
-			if(mainGame->wCmdMenu->isVisible() && !mainGame->wCmdMenu->getRelativePosition().isPointInside(pos))
+			if(mainGame->wCmdMenu->isVisible() && !mainGame->wCmdMenu->getRelativePosition().isPointInside(mousepos))
 				mainGame->wCmdMenu->setVisible(false);
 			if(panel && panel->isVisible())
 				break;
@@ -1446,9 +1447,10 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 			if(!mainGame->dInfo.isStarted)
 				break;
 			bool should_show_tip = false;
-			s32 x = event.MouseInput.X;
-			s32 y = event.MouseInput.Y;
-			irr::core::position2di pos(x, y);
+			position2di pos = mainGame->Resize(event.MouseInput.X, event.MouseInput.Y, true);
+			position2di mousepos = position2di(event.MouseInput.X, event.MouseInput.Y);
+			s32 x = pos.X;
+			s32 y = pos.Y;
 			wchar_t formatBuffer[2048];
 			if(x < 300) {
 				irr::gui::IGUIElement* root = mainGame->env->getRootGUIElement();
@@ -1466,7 +1468,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 			hovered_location = 0;
 			ClientCard* mcard = 0;
 			int mplayer = -1;
-			if(!panel || !panel->isVisible() || !panel->getRelativePosition().isPointInside(pos)) {
+			if(!panel || !panel->isVisible() || !panel->getRelativePosition().isPointInside(mousepos)) {
 				GetHoverField(x, y);
 				if(hovered_location & 0xe)
 					mcard = GetCard(hovered_controler, hovered_location, hovered_sequence);
@@ -1503,7 +1505,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 				if(mainGame->stTip->isVisible()) {
 					should_show_tip = true;
 					irr::core::recti tpos = mainGame->stTip->getRelativePosition();
-					mainGame->stTip->setRelativePosition(irr::core::position2di(x - tpos.getWidth() - 10, mcard ? y - tpos.getHeight() - 10 : y + 10));
+					mainGame->stTip->setRelativePosition(irr::core::position2di(mousepos.X - tpos.getWidth() - 10, mcard ? mousepos.Y - tpos.getHeight() - 10 : y + 10));
 				}
 			}
 			if(mcard != hovered_card) {
@@ -1588,7 +1590,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 							}
 							should_show_tip = true;
 							irr::core::dimension2d<unsigned int> dtip = mainGame->textFont->getDimension(str.c_str()) + irr::core::dimension2d<unsigned int>(10, 10);
-							mainGame->stTip->setRelativePosition(recti(x - 10 - dtip.Width, y - 10 - dtip.Height, x - 10, y - 10));
+							mainGame->stTip->setRelativePosition(recti(mousepos.X - 10 - dtip.Width, mousepos.Y - 10 - dtip.Height, mousepos.X - 10, mousepos.Y - 10));
 							mainGame->stTip->setText(str.c_str());
 						}
 					} else {
@@ -1620,7 +1622,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 					}
 					should_show_tip = true;
 					irr::core::dimension2d<unsigned int> dtip = mainGame->textFont->getDimension(str.c_str()) + irr::core::dimension2d<unsigned int>(10, 10);
-					mainGame->stTip->setRelativePosition(recti(x - 10 - dtip.Width, y + 10, x - 10, y + 10 + dtip.Height));
+					mainGame->stTip->setRelativePosition(recti(mousepos.X - 10 - dtip.Width, mousepos.Y + 10, mousepos.X - 10, mousepos.Y + 10 + dtip.Height));
 					mainGame->stTip->setText(str.c_str());
 				}
 				hovered_player = mplayer;
@@ -2200,6 +2202,9 @@ void ClientField::ShowMenu(int flag, int x, int y) {
 	} else mainGame->btnReset->setVisible(false);
 	panel = mainGame->wCmdMenu;
 	mainGame->wCmdMenu->setVisible(true);
+	position2di mouse = mainGame->Resize(x, y);
+	x = mouse.X;
+	y = mouse.Y;
 	mainGame->wCmdMenu->setRelativePosition(irr::core::recti(x - 20 , y - 20 - height, x + 80, y - 20));
 }
 void ClientField::UpdateChainButtons() {

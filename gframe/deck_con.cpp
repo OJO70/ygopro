@@ -690,14 +690,15 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 	return false;
 }
 void DeckBuilder::GetHoveredCard() {
-	int pre_code = hovered_code;
-	hovered_pos = 0;
-	hovered_code = 0;
 	irr::gui::IGUIElement* root = mainGame->env->getRootGUIElement();
 	if(root->getElementFromPoint(mouse_pos) != root)
 		return;
-	int x = mouse_pos.X;
-	int y = mouse_pos.Y;
+	position2di gamepos = mainGame->Resize(mouse_pos.X, mouse_pos.Y, true);
+	int x = gamepos.X;
+	int y = gamepos.Y;
+	int pre_code = hovered_code;
+	hovered_pos = 0;
+	hovered_code = 0;
 	is_lastcard = 0;
 	if(x >= 314 && x <= 794) {
 		if(y >= 164 && y <= 435) {

@@ -151,6 +151,14 @@ public:
 		return focus && focus->hasType(type);
 	}
 
+	void OnResize();
+	recti Resize(s32 x, s32 y, s32 x2, s32 y2);
+	recti ResizeSizeOnly(s32 x, s32 y, s32 x2, s32 y2);
+	recti Resize(s32 x, s32 y, s32 x2, s32 y2, s32 dx, s32 dy, s32 dx2, s32 dy2);
+	position2di Resize(s32 x, s32 y, bool reverse = false);
+	recti ResizeWin(s32 x, s32 y, s32 x2, s32 y2, bool chat = false);
+	recti ResizeElem(s32 x, s32 y, s32 x2, s32 y2);
+	
 	void SetWindowsIcon();
 	void FlashWindow();
 	void SetCursor(ECURSOR_ICON icon);
@@ -201,6 +209,9 @@ public:
 
 	bool is_building;
 	bool is_siding;
+	
+	int displayedcard;
+	irr::core::dimension2d<irr::u32> window_size;
 
 	ClientField dField;
 	DeckBuilder deckBuilder;
@@ -435,6 +446,22 @@ public:
 	irr::gui::IGUIButton* btnSideReload;
 	irr::gui::IGUIEditBox* ebDeckname;
 	irr::gui::IGUIButton* btnSetDefaultDeck;
+	//labels
+	irr::gui::IGUIStaticText* stLabel1;
+	irr::gui::IGUIStaticText* stLabel2;
+	irr::gui::IGUIStaticText* stLabel3;
+	irr::gui::IGUIStaticText* stLabel4;
+	irr::gui::IGUIStaticText* stLabel5;
+	irr::gui::IGUIStaticText* stLabel6;
+	irr::gui::IGUIStaticText* stLabel7;
+	irr::gui::IGUIStaticText* stLabel8;
+	irr::gui::IGUIStaticText* stLabel9;
+	irr::gui::IGUIStaticText* stLabel10;
+	irr::gui::IGUIStaticText* stLabel11;
+	irr::gui::IGUIStaticText* stLabel12;
+	irr::gui::IGUIStaticText* stLabel13;
+	irr::gui::IGUIStaticText* stLabel14;
+	irr::gui::IGUIStaticText* stLabel15;
 	//filter
 	irr::gui::IGUIStaticText* wFilter;
 	irr::gui::IGUIScrollBar* scrFilter;
