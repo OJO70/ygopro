@@ -135,6 +135,10 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 				prev_operation = id;
 				break;
 			}
+			case BUTTON_GET_DECK: {
+				ShellExecute(0, 0, L"https://ygopro.org/ygopro-deck/", 0, 0, SW_SHOW);
+				break;
+			}
 			case BUTTON_SORT_DECK: {
 				std::sort(deckManager.current_deck.main.begin(), deckManager.current_deck.main.end(), ClientCard::deck_sort_lv);
 				std::sort(deckManager.current_deck.extra.begin(), deckManager.current_deck.extra.end(), ClientCard::deck_sort_lv);

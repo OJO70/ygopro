@@ -423,6 +423,7 @@ public:
 	irr::gui::IGUIComboBox* cbDBLFList;
 	irr::gui::IGUIComboBox* cbDBDecks;
 	irr::gui::IGUIButton* btnClearDeck;
+	irr::gui::IGUIButton* btnGetDeck;
 	irr::gui::IGUIButton* btnSortDeck;
 	irr::gui::IGUIButton* btnShuffleDeck;
 	irr::gui::IGUIButton* btnSaveDeck;
@@ -551,6 +552,7 @@ extern Game* mainGame;
 #define BUTTON_BOT_START			154
 #define CHECKBOX_BOT_OLD_RULE		155
 #define BUTTON_CANCEL_SINGLEPLAY	160
+#define BUTTON_GET_DECK				161
 #define EDITBOX_CHAT				199
 
 #define BUTTON_MSG_OK				200
