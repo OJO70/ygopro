@@ -1613,19 +1613,4 @@ recti Game::ResizeElem(s32 x, s32 y, s32 x2, s32 y2)
 	y2 = sy + y;
 	return recti(x, y, x2, y2);
 }
-int Game::ExtractColor(const stringw name, CGUISkinSystem *skinSystem, unsigned int normalColor)
-{
-	// Convert and apply special color
-	stringw spccolor = skinSystem->getProperty(name);
-	if (!spccolor.empty())
-	{
-		unsigned int x;
-		std::wstringstream ss;
-		ss << std::hex << spccolor.c_str();
-		ss >> x;
-		if (!ss.fail())
-			return x;
-	}
-	return normalColor;
-}
 }
