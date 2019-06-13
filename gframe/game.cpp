@@ -34,7 +34,7 @@ bool Game::Initialize() {
 	}
 	
 	// Apply skin
-	special_color = 0xFF0000FF;
+	specialcolor = 0xFF0000FF;
 	turncolor = 0x8000ffff;
 	playerlpcolor = 0xffffff00;
 	extracolor = 0xffffff00;
@@ -42,6 +42,7 @@ bool Game::Initialize() {
 	bonuscolor = 0xffffff00;
 	negativecolor = 0xffff2090;
 	setcolor = 0xff0000ff;
+	tipbackgroundcolor = 0xff000000;
 
 	if (gameConf.skin_index >= 0)
 	{
@@ -52,7 +53,7 @@ bool Game::Initialize() {
 			int index = skins.size() - gameConf.skin_index - 1; // reverse index
 			if (skinSystem->applySkin(skins[index].c_str()))
 			{
-				special_color = ExtractColor(L"SpecialColor", skinSystem, special_color);
+				specialcolor = ExtractColor(L"SpecialColor", skinSystem, specialcolor);
 				turncolor = ExtractColor(L"TurnColor", skinSystem, turncolor);
 				playerlpcolor = ExtractColor(L"LPColor", skinSystem, playerlpcolor);
 				extracolor = ExtractColor(L"ExtraColor", skinSystem, extracolor);
@@ -60,6 +61,7 @@ bool Game::Initialize() {
 				bonuscolor = ExtractColor(L"BonusColor", skinSystem, bonuscolor);
 				negativecolor = ExtractColor(L"NegativeColor", skinSystem, negativecolor);
 				setcolor = ExtractColor(L"SetColor", skinSystem, setcolor);
+				tipbackgroundcolor = ExtractColor(L"TipBackgroundColor", skinSystem, tipbackgroundcolor);
 			}
 		}
 	}
@@ -721,12 +723,12 @@ bool Game::Initialize() {
 	btnLeaveGame->setVisible(false);
 	//tip
 	stTip = env->addStaticText(L"", rect<s32>(0, 0, 150, 150), false, true, 0, -1, true);
-	stTip->setBackgroundColor(0xc0ffffff);
+	stTip->setBackgroundColor(tipbackgroundcolor);
 	stTip->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stTip->setVisible(false);
 	//tip for cards in select / display list
 	stCardListTip = env->addStaticText(L"", rect<s32>(0, 0, 150, 150), false, true, wCardSelect, TEXT_CARD_LIST_TIP, true);
-	stCardListTip->setBackgroundColor(0xc0ffffff);
+	stCardListTip->setBackgroundColor(tipbackgroundcolor);
 	stCardListTip->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stCardListTip->setVisible(false);
 	device->setEventReceiver(&menuHandler);
