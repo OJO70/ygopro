@@ -144,6 +144,10 @@ public:
 	void ErrorLog(const char* msgbuf);
 	void ClearTextures();
 	void CloseDuelWindow();
+	
+	void DrawAvatars();
+	void DrawRanks();
+	void DrawBorders();
 
 	int LocalPlayer(int player);
 	const wchar_t* LocalName(int local_player);

@@ -472,17 +472,18 @@ void Game::DrawMisc() {
 			driver->drawVertexPrimitiveList(matManager.vChainNum, 4, matManager.iRectangle, 2);
 		}
 	}
+	DrawAvatars();
 	//finish button
 	if(btnCancelOrFinish->isVisible() && dField.select_ready)
 		DrawSelectionLine(btnCancelOrFinish, 2, 0xffffff00);
 	//lp bar
-	if((dInfo.turn % 2 && dInfo.isFirst) || (!(dInfo.turn % 2) && !dInfo.isFirst)) {
-		driver->draw2DRectangle(0xa0000000, recti(327, 8, 630, 51));
-		driver->draw2DRectangleOutline(recti(327, 8, 630, 51), 0xffff8080);
-	} else {
-		driver->draw2DRectangle(0xa0000000, recti(689, 8, 991, 51));
-		driver->draw2DRectangleOutline(recti(689, 8, 991, 51), 0xffff8080);
-	}
+	//if((dInfo.turn % 2 && dInfo.isFirst) || (!(dInfo.turn % 2) && !dInfo.isFirst)) {
+	//	driver->draw2DRectangle(0xa0000000, recti(327, 8, 630, 51));
+	//	driver->draw2DRectangleOutline(recti(327, 8, 630, 51), 0xffff8080);
+	//} else {
+	//	driver->draw2DRectangle(0xa0000000, recti(689, 8, 991, 51));
+	//	driver->draw2DRectangleOutline(recti(689, 8, 991, 51), 0xffff8080);
+	//}
 	driver->draw2DImage(imageManager.tLPFrame, mainGame->Resize(330, 10, 629, 30), recti(0, 0, 200, 20), 0, 0, true);
 	driver->draw2DImage(imageManager.tLPFrame, mainGame->Resize(691, 10, 990, 30), recti(0, 0, 200, 20), 0, 0, true);
 	if(dInfo.lp[0] >= 8000)
@@ -506,12 +507,18 @@ void Game::DrawMisc() {
 			lpcFont->draw(lpcstring, mainGame->Resize(400, 162, 922, 210), lpccolor, true, false, 0);
 		}
 	}
+	
+	DrawBorders();
+	
 	if(!dInfo.isReplay && dInfo.player_type < 7 && dInfo.time_limit) {
 		driver->draw2DRectangle(mainGame->Resize(525, 34, 525 + dInfo.time_left[0] * 100 / dInfo.time_limit, 44), 0xa0e0e0e0, 0xa0e0e0e0, 0xa0c0c0c0, 0xa0c0c0c0);
 		driver->draw2DRectangleOutline(mainGame->Resize(525, 34, 625, 44), 0xffffffff);
 		driver->draw2DRectangle(mainGame->Resize(795 - dInfo.time_left[1] * 100 / dInfo.time_limit, 34, 795, 44), 0xa0e0e0e0, 0xa0e0e0e0, 0xa0c0c0c0, 0xa0c0c0c0);
 		driver->draw2DRectangleOutline(mainGame->Resize(695, 34, 795, 44), 0xffffffff);
 	}
+	
+	DrawRanks();
+	
 	numFont->draw(dInfo.strLP[0], mainGame->Resize(330, 11, 629, 30), 0xff000000, true, false, 0);
 	numFont->draw(dInfo.strLP[0], mainGame->Resize(330, 12, 631, 30), mainGame->playerlpcolor, true, false, 0);
 	numFont->draw(dInfo.strLP[1], mainGame->Resize(691, 11, 990, 30), 0xff000000, true, false, 0);
@@ -1237,5 +1244,134 @@ void Game::DrawDeckBd() {
 	if(deckBuilder.is_draging) {
 		DrawThumb(deckBuilder.draging_pointer, position2di(deckBuilder.dragx - 22, deckBuilder.dragy - 32), deckBuilder.filterList);
 	}
+}
+static void DrawPlayerAvatar(IVideoDriver *driver, vector2di pos, int player, bool right)
+{
+	ITexture *avatar = imageManager.tAvatar[player];
+	if (avatar)
+	{
+		recti sourceRect(dimension2di(0, 0), avatar->getSize());
+		position2di maxSize = mainGame->Resize(69, 69);
+		dimension2di textureSize(maxSize.X, maxSize.Y);
+		if (right)
+			pos.X -= textureSize.Width;
+		recti destRect(pos, pos + textureSize);
+		driver->draw2DImage(avatar, destRect, sourceRect, NULL, NULL, true);
+	}
+}
+static void DrawPlayerRank(IVideoDriver *driver, vector2di pos, int player, bool right)
+{
+	ITexture *rank = imageManager.tRank[player];
+	if (rank)
+	{
+		recti sourceRect(dimension2di(0, 0), rank->getSize());
+		position2di maxSize = mainGame->Resize(42, 42);
+		dimension2di textureSize(maxSize.X, maxSize.Y);
+		if (right)
+			pos.X -= textureSize.Width;
+		recti destRect(pos, pos + textureSize);
+		driver->draw2DImage(rank, destRect, sourceRect, NULL, NULL, true);
+	}
+}
+static void DrawPlayerBorder(IVideoDriver *driver, recti pos, int player)
+{
+	ITexture *border = imageManager.tBorder[player];
+	if (border)
+	{
+		recti sourceRect(dimension2di(0, 0), border->getSize());
+		driver->draw2DImage(border, pos, sourceRect, NULL, NULL, true);
+	}
+}
+
+void Game::DrawAvatars()
+{
+	int trueIds[4];
+	bool isHostTeam = DuelClient::IsHostTeam();
+	if (dInfo.isTag)
+	{
+		trueIds[0] = isHostTeam ? 0 : 2;
+		trueIds[1] = isHostTeam ? 1 : 3;
+		trueIds[2] = isHostTeam ? 2 : 0;
+		trueIds[3] = isHostTeam ? 3 : 1;
+	}
+	else
+	{
+		trueIds[0] = isHostTeam ? 0 : 1;
+		trueIds[2] = isHostTeam ? 1 : 0;
+	}
+
+	position2di p1pos = mainGame->Resize(332, 30);
+	position2di p2pos = mainGame->Resize(987, 30);
+	p1pos.Y += 3;
+	p2pos.Y += 3;
+
+	if (!dInfo.isTag || !dInfo.tag_player[0])
+		DrawPlayerAvatar(driver, vector2di(p1pos.X, p1pos.Y), trueIds[0], false);
+	else
+		DrawPlayerAvatar(driver, vector2di(p1pos.X, p1pos.Y), trueIds[1], false);
+	if (!dInfo.isTag || !dInfo.tag_player[1])
+		DrawPlayerAvatar(driver, vector2di(p2pos.X, p2pos.Y), trueIds[2], true);
+	else
+		DrawPlayerAvatar(driver, vector2di(p2pos.X, p2pos.Y), trueIds[3], true);
+}
+
+void Game::DrawRanks()
+{
+	int trueIds[4];
+	bool isHostTeam = DuelClient::IsHostTeam();
+	if (dInfo.isTag)
+	{
+		trueIds[0] = isHostTeam ? 0 : 2;
+		trueIds[1] = isHostTeam ? 1 : 3;
+		trueIds[2] = isHostTeam ? 2 : 0;
+		trueIds[3] = isHostTeam ? 3 : 1;
+	}
+	else
+	{
+		trueIds[0] = isHostTeam ? 0 : 1;
+		trueIds[2] = isHostTeam ? 1 : 0;
+	}
+
+	position2di p1pos = mainGame->Resize(412, 50);
+	position2di p2pos = mainGame->Resize(909, 50);
+
+	if (!dInfo.isTag || !dInfo.tag_player[0])
+		DrawPlayerRank(driver, vector2di(p1pos.X - 1, p1pos.Y + 4), trueIds[0], false);
+	else
+		DrawPlayerRank(driver, vector2di(p1pos.X - 1, p1pos.Y + 4), trueIds[1], false);
+	if (!dInfo.isTag || !dInfo.tag_player[1])
+		DrawPlayerRank(driver, vector2di(p2pos.X - 3, p2pos.Y + 4), trueIds[2], true);
+	else
+		DrawPlayerRank(driver, vector2di(p2pos.X - 3, p2pos.Y + 4), trueIds[3], true);
+}
+
+void Game::DrawBorders()
+{
+	int trueIds[4];
+	bool isHostTeam = DuelClient::IsHostTeam();
+	if (dInfo.isTag)
+	{
+		trueIds[0] = isHostTeam ? 0 : 2;
+		trueIds[1] = isHostTeam ? 1 : 3;
+		trueIds[2] = isHostTeam ? 2 : 0;
+		trueIds[3] = isHostTeam ? 3 : 1;
+	}
+	else
+	{
+		trueIds[0] = isHostTeam ? 0 : 1;
+		trueIds[2] = isHostTeam ? 1 : 0;
+	}
+
+	recti p1pos = mainGame->Resize(328, 8, 629, 105);
+	recti p2pos = mainGame->Resize(689, 8, 990, 105);
+
+	if (!dInfo.isTag || !dInfo.tag_player[0])
+		DrawPlayerBorder(driver, p1pos, trueIds[0]);
+	else
+		DrawPlayerBorder(driver, p1pos, trueIds[1]);
+	if (!dInfo.isTag || !dInfo.tag_player[1])
+		DrawPlayerBorder(driver, p2pos, trueIds[2]);
+	else
+		DrawPlayerBorder(driver, p2pos, trueIds[3]);
 }
 }

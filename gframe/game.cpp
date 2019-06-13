@@ -782,6 +782,7 @@ void Game::MainLoop() {
 		driver->beginScene(true, true, SColor(0, 0, 0, 0));
 		gMutex.Lock();
 		if(dInfo.isStarted) {
+			imageManager.LoadPendingTextures();
 			if(dInfo.isFinished && showcardcode == 1)
 				soundManager.PlayBGM(BGM_WIN);
 			else if(dInfo.isFinished && (showcardcode == 2 || showcardcode == 3))
