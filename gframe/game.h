@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <vector>
 #include <list>
+#include "CGUISkinSystem/CGUISkinSystem.h"
 
 namespace ygo {
 
@@ -51,6 +52,7 @@ struct Config {
 	double sound_volume;
 	double music_volume;
 	int music_mode;
+	int skin_index;
 };
 
 struct DuelInfo {
@@ -158,6 +160,7 @@ public:
 	position2di Resize(s32 x, s32 y, bool reverse = false);
 	recti ResizeWin(s32 x, s32 y, s32 x2, s32 y2, bool chat = false);
 	recti ResizeElem(s32 x, s32 y, s32 x2, s32 y2);
+	int ExtractColor(const stringw name, CGUISkinSystem *skinSystem, unsigned int normalColor);
 	
 	void SetWindowsIcon();
 	void FlashWindow();
@@ -202,6 +205,14 @@ public:
 	int lpd;
 	int lpplayer;
 	int lpccolor;
+	int special_color;
+	int turncolor;
+	int playerlpcolor;
+	int extracolor;
+	int statcolor;
+	int bonuscolor;
+	int negativecolor;
+	int setcolor;
 	wchar_t* lpcstring;
 	bool always_chain;
 	bool ignore_chain;
@@ -212,6 +223,8 @@ public:
 	
 	int displayedcard;
 	irr::core::dimension2d<irr::u32> window_size;
+	
+	CGUISkinSystem *skinSystem;
 
 	ClientField dField;
 	DeckBuilder deckBuilder;

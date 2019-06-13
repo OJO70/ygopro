@@ -9,6 +9,7 @@
 #include "duelclient.h"
 #include "netserver.h"
 #include "single_mode.h"
+#include <sstream>
 
 const unsigned short PRO_VERSION = 0x1349;
 
@@ -31,6 +32,38 @@ bool Game::Initialize() {
 		ErrorLog("Failed to create Irrlicht Engine device!");
 		return false;
 	}
+	
+	// Apply skin
+	special_color = 0xFF0000FF;
+	turncolor = 0x8000ffff;
+	playerlpcolor = 0xffffff00;
+	extracolor = 0xffffff00;
+	statcolor = 0xffffffff;
+	bonuscolor = 0xffffff00;
+	negativecolor = 0xffff2090;
+	setcolor = 0xff0000ff;
+
+	if (gameConf.skin_index >= 0)
+	{
+		skinSystem = new CGUISkinSystem("skins", device);
+		core::array<core::stringw> skins = skinSystem->listSkins();
+		if ((size_t)gameConf.skin_index < skins.size())
+		{
+			int index = skins.size() - gameConf.skin_index - 1; // reverse index
+			if (skinSystem->applySkin(skins[index].c_str()))
+			{
+				special_color = ExtractColor(L"SpecialColor", skinSystem, special_color);
+				turncolor = ExtractColor(L"TurnColor", skinSystem, turncolor);
+				playerlpcolor = ExtractColor(L"LPColor", skinSystem, playerlpcolor);
+				extracolor = ExtractColor(L"ExtraColor", skinSystem, extracolor);
+				statcolor = ExtractColor(L"StatColor", skinSystem, statcolor);
+				bonuscolor = ExtractColor(L"BonusColor", skinSystem, bonuscolor);
+				negativecolor = ExtractColor(L"NegativeColor", skinSystem, negativecolor);
+				setcolor = ExtractColor(L"SetColor", skinSystem, setcolor);
+			}
+		}
+	}
+	
 	linePatternD3D = 0;
 	linePatternGL = 0x0f0f;
 	waitFrame = 0;
@@ -1011,6 +1044,7 @@ void Game::LoadConfig() {
 	gameConf.enable_music = true;
 	gameConf.music_volume = 0.5;
 	gameConf.music_mode = 1;
+	gameConf.skin_index = -1;
 	while(fgets(linebuf, 256, fp)) {
 		sscanf(linebuf, "%s = %s", strbuf, valbuf);
 		if(!strcmp(strbuf, "antialias")) {
@@ -1077,6 +1111,8 @@ void Game::LoadConfig() {
 			gameConf.enable_bot_mode = atoi(valbuf);
 		} else if(!strcmp(strbuf, "quick_animation")) {
 			gameConf.quick_animation = atoi(valbuf);
+		} else if(!strcmp(strbuf, "skin_index")) {
+			gameConf.skin_index = atoi(valbuf);
 		} else if(!strcmp(strbuf, "auto_save_replay")) {
 			gameConf.auto_save_replay = atoi(valbuf);
 		} else if(!strcmp(strbuf, "prefer_expansion_script")) {
@@ -1156,6 +1192,7 @@ void Game::SaveConfig() {
 	fprintf(fp, "default_ot = %d\n", gameConf.defaultOT);
 	fprintf(fp, "enable_bot_mode = %d\n", gameConf.enable_bot_mode);
 	fprintf(fp, "quick_animation = %d\n", gameConf.quick_animation);
+	fprintf(fp, "skin_index = %d\n", gameConf.skin_index);
 	fprintf(fp, "auto_save_replay = %d\n", (chkAutoSaveReplay->isChecked() ? 1 : 0));
 	fprintf(fp, "prefer_expansion_script = %d\n", gameConf.prefer_expansion_script);
 #ifdef YGOPRO_USE_IRRKLANG
@@ -1612,5 +1649,20 @@ recti Game::ResizeElem(s32 x, s32 y, s32 x2, s32 y2)
 	x2 = sx + x;
 	y2 = sy + y;
 	return recti(x, y, x2, y2);
+}
+int Game::ExtractColor(const stringw name, CGUISkinSystem *skinSystem, unsigned int normalColor)
+{
+	// Convert and apply special color
+	stringw spccolor = skinSystem->getProperty(name);
+	if (!spccolor.empty())
+	{
+		unsigned int x;
+		std::wstringstream ss;
+		ss << std::hex << spccolor.c_str();
+		ss >> x;
+		if (!ss.fail())
+			return x;
+	}
+	return normalColor;
 }
 }
