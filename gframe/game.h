@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <vector>
 #include <list>
+#include <irrKlang.h>
+#pragma comment(lib, "irrKlang.lib")
 #include "CGUISkinSystem/CGUISkinSystem.h"
 
 namespace ygo {
@@ -48,6 +50,10 @@ struct Config {
 	int auto_save_replay;
 	int prefer_expansion_script;
 	int skin_index;
+	bool enablesound;
+	double soundvolume;
+	bool enablemusic;
+	double musicvolume;
 };
 
 struct DuelInfo {
@@ -139,6 +145,8 @@ public:
 	void ErrorLog(const char* msgbuf);
 	void ClearTextures();
 	void CloseDuelWindow();
+	void PlayMusic(char* song, bool loop);
+	void PlaySound(char* sound);
 	
 	void DrawAvatars();
 	void DrawRanks();
@@ -264,6 +272,10 @@ public:
 	irr::gui::IGUIListBox* lstLog;
 	irr::gui::IGUIButton* btnClearLog;
 	irr::gui::IGUIButton* btnSaveLog;
+	irr::gui::IGUICheckBox* chkEnableSound;
+	irr::gui::IGUICheckBox* chkEnableMusic;
+	irr::gui::IGUIScrollBar* scrSound;
+	irr::gui::IGUIScrollBar* scrMusic;
 	irr::gui::IGUICheckBox* chkMAutoPos;
 	irr::gui::IGUICheckBox* chkSTAutoPos;
 	irr::gui::IGUICheckBox* chkRandomPos;
@@ -519,6 +531,9 @@ public:
 	irr::gui::IGUIButton* btnChainWhenAvail;
 	//cancel or finish
 	irr::gui::IGUIButton* btnCancelOrFinish;
+	//soundEngine
+	irrklang::ISoundEngine* engineSound;
+	irrklang::ISoundEngine* engineMusic;
 };
 
 extern Game* mainGame;
@@ -586,6 +601,8 @@ extern Game* mainGame;
 #define LISTBOX_BOT_LIST			153
 #define BUTTON_BOT_START			154
 #define CHECKBOX_BOT_OLD_RULE		155
+#define CHECKBOX_ENABLE_SOUND		156
+#define CHECKBOX_ENABLE_MUSIC		157
 #define BUTTON_SET_DEFAULT_DECK		160
 #define BUTTON_GET_DECK				161
 #define EDITBOX_CHAT				199
@@ -647,6 +664,8 @@ extern Game* mainGame;
 #define BUTTON_CLEAR_LOG			270
 #define LISTBOX_LOG					271
 #define SCROLL_CARDTEXT				280
+#define SCROLL_SOUND				281
+#define SCROLL_MUSIC				282
 #define BUTTON_DISPLAY_0			290
 #define BUTTON_DISPLAY_1			291
 #define BUTTON_DISPLAY_2			292

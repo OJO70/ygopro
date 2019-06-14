@@ -330,6 +330,25 @@ bool Game::Initialize() {
 	posY += 30;
 	chkPreferExpansionScript = env->addCheckBox(false, rect<s32>(posX, posY, posX + 260, posY + 25), tabSystem, CHECKBOX_PREFER_EXPANSION, dataManager.GetSysString(1379));
 	chkPreferExpansionScript->setChecked(gameConf.prefer_expansion_script != 0);
+	//sound
+	posY += 30;
+	chkEnableSound = env->addCheckBox(gameConf.enablesound, rect<s32>(20, posY, 280, posY + 25), tabSystem, CHECKBOX_ENABLE_SOUND, dataManager.GetSysString(1279));
+	posY += 30;
+	scrSound = env->addScrollBar(true, rect<s32>(20, posY, 280, posY + 10), tabSystem, SCROLL_SOUND);
+	scrSound->setMax(100);
+	scrSound->setMin(0);
+	scrSound->setPos(gameConf.soundvolume * 100);
+	scrSound->setLargeStep(1);
+	scrSound->setSmallStep(1);
+	posY += 15;
+	chkEnableMusic = env->addCheckBox(gameConf.enablemusic, rect<s32>(20, posY, 280, posY + 25), tabSystem, CHECKBOX_ENABLE_MUSIC, dataManager.GetSysString(1280));
+	posY += 30;
+	scrMusic = env->addScrollBar(true, rect<s32>(20, posY, 280, posY + 10), tabSystem, SCROLL_MUSIC);
+	scrMusic->setMax(100);
+	scrMusic->setMin(0);
+	scrMusic->setPos(gameConf.musicvolume * 100);
+	scrMusic->setLargeStep(1);
+	scrMusic->setSmallStep(1);
 	//
 	wHand = env->addWindow(rect<s32>(500, 450, 825, 605), false, L"");
 	wHand->getCloseButton()->setVisible(false);
@@ -718,6 +737,8 @@ bool Game::Initialize() {
 		col.setAlpha(224);
 		env->getSkin()->setColor((EGUI_DEFAULT_COLOR)i, col);
 	}
+	engineSound = irrklang::createIrrKlangDevice();
+	engineMusic = irrklang::createIrrKlangDevice();
 	hideChat = false;
 	hideChatTimer = 0;
 	return true;
@@ -751,6 +772,16 @@ void Game::MainLoop() {
 		gMutex.Lock();
 		if(dInfo.isStarted) {
 			imageManager.LoadPendingTextures();
+			if (mainGame->showcardcode == 1 || mainGame->showcardcode == 3)
+				Game::PlayMusic("./sound/duelwin.mp3", true);
+			else if (mainGame->showcardcode == 2)
+				Game::PlayMusic("./sound/duellose.mp3", true);
+			else if (mainGame->dInfo.lp[LocalPlayer(0)] <= mainGame->dInfo.lp[LocalPlayer(1)] / 2)
+				Game::PlayMusic("./sound/song-disadvantage.mp3", true);
+			else if (mainGame->dInfo.lp[LocalPlayer(0)] >= mainGame->dInfo.lp[LocalPlayer(1)] * 2)
+				Game::PlayMusic("./sound/song-advantage.mp3", true);
+			else
+				Game::PlayMusic("./sound/song.mp3", true);
 			DrawBackImage(imageManager.tBackGround);
 			DrawBackGround();
 			DrawCards();
@@ -761,8 +792,10 @@ void Game::MainLoop() {
 		} else if(is_building) {
 			DrawBackImage(imageManager.tBackGround_deck);
 			DrawDeckBd();
+			Game::PlayMusic("./sound/deck.mp3", true);
 		} else {
 			DrawBackImage(imageManager.tBackGround_menu);
+			Game::PlayMusic("./sound/menu.mp3", true);
 		}
 		DrawGUI();
 		DrawSpec();
@@ -996,6 +1029,10 @@ void Game::LoadConfig() {
 	gameConf.quick_animation = 0;
 	gameConf.auto_save_replay = 0;
 	gameConf.prefer_expansion_script = 0;
+	gameConf.enablemusic = true;
+	gameConf.enablesound = true;
+	gameConf.musicvolume = 0.3;
+	gameConf.soundvolume = 0.3;
 	gameConf.skin_index = -1;
 	while(fgets(linebuf, 256, fp)) {
 		sscanf(linebuf, "%s = %s", strbuf, valbuf);
@@ -1067,6 +1104,14 @@ void Game::LoadConfig() {
 			gameConf.skin_index = atoi(valbuf);
 		} else if(!strcmp(strbuf, "auto_save_replay")) {
 			gameConf.auto_save_replay = atoi(valbuf);
+		} else if (!strcmp(strbuf, "enable_music")) {
+			gameConf.enablemusic = atoi(valbuf) > 0;
+		} else if (!strcmp(strbuf, "music_volume")) {
+			gameConf.musicvolume = atof(valbuf) / 100;
+		} else if (!strcmp(strbuf, "enable_sound")) {
+			gameConf.enablesound = atoi(valbuf) > 0;
+		} else if (!strcmp(strbuf, "sound_volume")) {
+			gameConf.soundvolume = atof(valbuf) / 100;
 		} else if(!strcmp(strbuf, "prefer_expansion_script")) {
 			gameConf.prefer_expansion_script = atoi(valbuf);
 		} else {
@@ -1136,6 +1181,21 @@ void Game::SaveConfig() {
 	fprintf(fp, "auto_save_replay = %d\n", (chkAutoSaveReplay->isChecked() ? 1 : 0));
 	fprintf(fp, "prefer_expansion_script = %d\n", gameConf.prefer_expansion_script);
 	fclose(fp);
+}
+void Game::PlayMusic(char* song, bool loop) {
+	if (gameConf.enablemusic) {
+		if (!engineMusic->isCurrentlyPlaying(song)) {
+			engineMusic->stopAllSounds();
+			engineMusic->play2D(song, loop);
+			engineMusic->setSoundVolume(gameConf.musicvolume);
+		}
+	}
+}
+void Game::PlaySound(char* sound) {
+	if (gameConf.enablesound) {
+		engineSound->play2D(sound);
+		engineSound->setSoundVolume(gameConf.soundvolume);
+	}
 }
 void Game::ShowCardInfo(int code) {
 	CardData cd;

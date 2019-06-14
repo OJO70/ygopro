@@ -343,6 +343,16 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 				GetHoveredCard();
 				break;
 			}
+			case SCROLL_SOUND: {
+				mainGame->gameConf.soundvolume = (double)mainGame->scrSound->getPos() / 100;
+				mainGame->engineSound->setSoundVolume(mainGame->gameConf.soundvolume);
+				break;
+			}
+			case SCROLL_MUSIC: {
+				mainGame->gameConf.musicvolume = (double)mainGame->scrMusic->getPos() / 100;
+				mainGame->engineMusic->setSoundVolume(mainGame->gameConf.musicvolume);
+				break;
+			}
 			}
 			break;
 		}
@@ -359,6 +369,22 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 			switch(id) {
 			case EDITBOX_KEYWORD: {
 				InstantSearch();
+				break;
+			}
+			}
+			break;
+		}
+		case irr::gui::EGET_CHECKBOX_CHANGED: {
+			s32 id = event.GUIEvent.Caller->getID();
+			switch (id) {
+			case CHECKBOX_ENABLE_SOUND: {
+				mainGame->gameConf.enablesound = mainGame->chkEnableSound->isChecked();
+				break;
+			}
+			case CHECKBOX_ENABLE_MUSIC: {
+				mainGame->gameConf.enablemusic = mainGame->chkEnableMusic->isChecked();
+				if (!mainGame->gameConf.enablemusic)
+					mainGame->engineMusic->stopAllSounds();
 				break;
 			}
 			}
