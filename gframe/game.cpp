@@ -726,7 +726,10 @@ bool Game::Initialize() {
 	btnLeaveGame->setVisible(false);
 	//tip
 	stTip = env->addStaticText(L"", rect<s32>(0, 0, 150, 150), false, true, 0, -1, true);
-	stTip->setBackgroundColor(tipbackgroundcolor);
+	if (gameConf.skin_index >= 0)
+		stTip->setBackgroundColor(tipbackgroundcolor);
+	else
+		stTip->setBackgroundColor(0xffffffff);
 	stTip->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stTip->setVisible(false);
 	//tip for cards in select / display list
