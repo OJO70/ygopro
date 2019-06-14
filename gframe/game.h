@@ -50,6 +50,8 @@ struct Config {
 	int auto_save_replay;
 	int prefer_expansion_script;
 	int skin_index;
+	int botduel;
+	int mutechat;
 	bool enablesound;
 	double soundvolume;
 	bool enablemusic;

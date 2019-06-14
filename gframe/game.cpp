@@ -697,6 +697,11 @@ bool Game::Initialize() {
 	wChat->setDrawTitlebar(false);
 	wChat->setVisible(false);
 	ebChatInput = env->addEditBox(L"", rect<s32>(3, 2, 710, 22), true, wChat, EDITBOX_CHAT);
+	if (gameConf.mutechat || gameConf.botduel)
+	{
+		mainGame->HideElement(mainGame->wChat);
+		mainGame->HideElement(mainGame->ebChatInput);
+	}
 	//swap
 	btnSpectatorSwap = env->addButton(rect<s32>(205, 100, 295, 135), 0, BUTTON_REPLAY_SWAP, dataManager.GetSysString(1346));
 	btnSpectatorSwap->setVisible(false);
@@ -1035,6 +1040,8 @@ void Game::LoadConfig() {
 	gameConf.musicvolume = 0.3;
 	gameConf.soundvolume = 0.3;
 	gameConf.skin_index = -1;
+	gameConf.mutechat = false;
+	gameConf.botduel = false;
 	while(fgets(linebuf, 256, fp)) {
 		sscanf(linebuf, "%s = %s", strbuf, valbuf);
 		if(!strcmp(strbuf, "antialias")) {
@@ -1115,6 +1122,10 @@ void Game::LoadConfig() {
 			gameConf.soundvolume = atof(valbuf) / 100;
 		} else if(!strcmp(strbuf, "prefer_expansion_script")) {
 			gameConf.prefer_expansion_script = atoi(valbuf);
+		} else if (!strcmp(strbuf, "mute_chat")) {
+			gameConf.mutechat = atoi(valbuf) > 0;
+		} else if (!strcmp(strbuf, "bot_duel")) {
+			gameConf.botduel = atoi(valbuf) > 0;
 		} else {
 			// options allowing multiple words
 			sscanf(linebuf, "%s = %240[^\n]", strbuf, valbuf);
