@@ -47,11 +47,6 @@ struct Config {
 	int quick_animation;
 	int auto_save_replay;
 	int prefer_expansion_script;
-	bool enable_sound;
-	bool enable_music;
-	double sound_volume;
-	double music_volume;
-	int music_mode;
 	int skin_index;
 };
 
@@ -280,11 +275,6 @@ public:
 	irr::gui::IGUICheckBox* chkAutoSearch;
 	irr::gui::IGUICheckBox* chkMultiKeywords;
 	irr::gui::IGUICheckBox* chkPreferExpansionScript;
-	irr::gui::IGUICheckBox* chkEnableSound;
-	irr::gui::IGUICheckBox* chkEnableMusic;
-	irr::gui::IGUIScrollBar* scrSoundVolume;
-	irr::gui::IGUIScrollBar* scrMusicVolume;
-	irr::gui::IGUICheckBox* chkMusicMode;
 	//main menu
 	irr::gui::IGUIWindow* wMainMenu;
 	irr::gui::IGUIButton* btnLanMode;
@@ -692,9 +682,6 @@ extern Game* mainGame;
 #define BUTTON_MARKERS_OK			323
 #define COMBOBOX_SORTTYPE			324
 #define CHECKBOX_AUTO_SEARCH		360
-#define CHECKBOX_ENABLE_SOUND		361
-#define CHECKBOX_ENABLE_MUSIC		362
-#define SCROLL_VOLUME				363
 #define CHECKBOX_DISABLE_CHAT		364
 #define CHECKBOX_QUICK_ANIMATION	369
 #define SCROLL_TAB_HELPER			370

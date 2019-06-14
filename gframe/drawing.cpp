@@ -2,7 +2,6 @@
 #include "materials.h"
 #include "image_manager.h"
 #include "deck_manager.h"
-#include "sound_manager.h"
 #include "duelclient.h"
 #include "../ocgcore/common.h"
 
@@ -1054,7 +1053,6 @@ void Game::HideElement(irr::gui::IGUIElement * win, bool set_action) {
 	fadingList.push_back(fu);
 }
 void Game::PopupElement(irr::gui::IGUIElement * element, int hideframe) {
-	soundManager.PlayDialogSound(element);
 	element->getParent()->bringToFront(element);
 	if(!mainGame->is_building)
 		dField.panel = element;

@@ -3,7 +3,6 @@
 #include "data_manager.h"
 #include "deck_manager.h"
 #include "image_manager.h"
-#include "sound_manager.h"
 #include "game.h"
 #include "duelclient.h"
 #include <algorithm>
@@ -125,7 +124,6 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 			break;
 		switch(event.GUIEvent.EventType) {
 		case irr::gui::EGET_BUTTON_CLICKED: {
-			soundManager.PlaySoundEffect(SOUND_BUTTON);
 			switch(id) {
 			case BUTTON_CLEAR_DECK: {
 				mainGame->gMutex.Lock();
@@ -240,7 +238,6 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 			case BUTTON_SIDE_OK: {
 				if(deckManager.current_deck.main.size() != pre_mainc || deckManager.current_deck.extra.size() != pre_extrac
 				        || deckManager.current_deck.side.size() != pre_sidec) {
-					soundManager.PlaySoundEffect(SOUND_INFO);
 					mainGame->env->addMessageBox(L"", dataManager.GetSysString(1410));
 					break;
 				}
@@ -536,7 +533,6 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 			is_starting_dragging = false;
 			if(!is_draging)
 				break;
-			soundManager.PlaySoundEffect(SOUND_CARD_DROP);
 			bool pushed = false;
 			if(hovered_pos == 1)
 				pushed = push_main(draging_pointer, hovered_seq);
@@ -566,7 +562,6 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 				auto pointer = dataManager.GetCodePointer(hovered_code);
 				if(pointer == dataManager._datas.end())
 					break;
-				soundManager.PlaySoundEffect(SOUND_CARD_DROP);
 				if(hovered_pos == 1) {
 					if(push_side(pointer))
 						pop_main(hovered_seq);
@@ -584,7 +579,6 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 			if(!is_draging) {
 				if(hovered_pos == 0 || hovered_seq == -1)
 					break;
-				soundManager.PlaySoundEffect(SOUND_CARD_DROP);
 				if(hovered_pos == 1) {
 					pop_main(hovered_seq);
 				} else if(hovered_pos == 2) {
@@ -601,7 +595,6 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 						push_side(pointer);
 				}
 			} else {
-				soundManager.PlaySoundEffect(SOUND_CARD_PICK);
 				if(click_pos == 1) {
 					push_side(draging_pointer);
 				} else if(click_pos == 2) {
@@ -628,7 +621,6 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 			auto pointer = dataManager.GetCodePointer(hovered_code);
 			if(!check_limit(pointer))
 				break;
-			soundManager.PlaySoundEffect(SOUND_CARD_PICK);
 			if (hovered_pos == 1) {
 				if(!push_main(pointer))
 					push_side(pointer);
@@ -647,7 +639,6 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 		case irr::EMIE_MOUSE_MOVED: {
 			if(is_starting_dragging) {
 				is_draging = true;
-				soundManager.PlaySoundEffect(SOUND_CARD_PICK);
 				if(hovered_pos == 1)
 					pop_main(hovered_seq);
 				else if(hovered_pos == 2)

@@ -6,7 +6,6 @@
 #include "replay_mode.h"
 #include "single_mode.h"
 #include "image_manager.h"
-#include "sound_manager.h"
 #include "game.h"
 
 namespace ygo {
@@ -43,10 +42,6 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 		}
 		switch(event.GUIEvent.EventType) {
 		case irr::gui::EGET_BUTTON_CLICKED: {
-			if(id < 110)
-				soundManager.PlaySoundEffect(SOUND_MENU);
-			else
-				soundManager.PlaySoundEffect(SOUND_BUTTON);
 			switch(id) {
 			case BUTTON_MODE_EXIT: {
 				mainGame->device->closeDevice();
@@ -81,7 +76,6 @@ bool MenuHandler::OnEvent(const irr::SEvent& event) {
 					int status = evutil_getaddrinfo(hostname, port, &hints, &answer);
 					if(status != 0) {
 						mainGame->gMutex.Lock();
-						soundManager.PlaySoundEffect(SOUND_INFO);
 						mainGame->env->addMessageBox(L"", dataManager.GetSysString(1412));
 						mainGame->gMutex.Unlock();
 						break;
