@@ -88,6 +88,7 @@ void DeckBuilder::Initialize() {
 	prev_sel = -1;
 	is_modified = false;
 	mainGame->device->setEventReceiver(this);
+	InstantSearch();
 }
 void DeckBuilder::Terminate() {
 	mainGame->is_building = false;
