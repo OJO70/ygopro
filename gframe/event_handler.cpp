@@ -2227,7 +2227,7 @@ void ClientField::ShowCardInfoInList(ClientCard* pcard, irr::gui::IGUIElement* e
 			str.append(L"\n").append(formatBuffer);
 		}
 		if(chit.target.find(pcard) != chit.target.end()) {
-			myswprintf(formatBuffer, dataManager.GetSysString(217), i + 1, dataManager.GetName(chit.chain_card->code));
+			myswprintf(formatBuffer, dataManager.GetSysString(217), dataManager.GetName(chit.chain_card->code), i + 1);
 			str.append(L"\n").append(formatBuffer);
 		}
 	}
