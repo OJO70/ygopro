@@ -10,7 +10,7 @@
 #include "single_mode.h"
 #include <sstream>
 
-const unsigned short PRO_VERSION = 0x1349;
+const unsigned short PRO_VERSION = 0x133D;
 
 namespace ygo {
 
@@ -112,7 +112,7 @@ bool Game::Initialize() {
 		return false;
 	}
 	smgr = device->getSceneManager();
-	device->setWindowCaption(L"YGOPro");
+	device->setWindowCaption(L"Yu-Gi-Oh! The Dawn of a New Era");
 	device->setResizable(true);
 #ifdef _WIN32
 	irr::video::SExposedVideoData exposedData = driver->getExposedVideoData();
@@ -130,7 +130,7 @@ bool Game::Initialize() {
 	SetWindowsIcon();
 	//main menu
 	wchar_t strbuf[256];
-	myswprintf(strbuf, L"YGOPro Version:%X.0%X.%X", PRO_VERSION >> 12, (PRO_VERSION >> 4) & 0xff, PRO_VERSION & 0xf);
+	myswprintf(strbuf, L"Yu-Gi-Oh! TDOANE");
 	wMainMenu = env->addWindow(rect<s32>(370, 200, 650, 415), false, strbuf);
 	wMainMenu->getCloseButton()->setVisible(false);
 	btnLanMode = env->addButton(rect<s32>(10, 30, 270, 60), wMainMenu, BUTTON_LAN_MODE, dataManager.GetSysString(1200));
@@ -836,7 +836,7 @@ void Game::MainLoop() {
 			usleep(20000);
 #endif
 		if(cur_time >= 1000) {
-			myswprintf(cap, L"YGOPro FPS: %d", fps);
+			myswprintf(cap, L"Yu-Gi-Oh! The Dawn of a New Era FPS: %d", fps);
 			device->setWindowCaption(cap);
 			fps = 0;
 			cur_time -= 1000;
@@ -1030,7 +1030,7 @@ void Game::LoadConfig() {
 	gameConf.control_mode = 0;
 	gameConf.draw_field_spell = 1;
 	gameConf.separate_clear_button = 1;
-	gameConf.auto_search_limit = -1;
+	gameConf.auto_search_limit = 0;
 	gameConf.search_multiple_keywords = 1;
 	gameConf.chkIgnoreDeckChanges = 0;
 	gameConf.defaultOT = 1;
@@ -1066,7 +1066,7 @@ void Game::LoadConfig() {
 			BufferIO::CopyWStr(wstr, gameConf.numfont, 256);
 		} else if(!strcmp(strbuf, "serverport")) {
 			gameConf.serverport = atoi(valbuf);
-		} else if(!strcmp(strbuf, "lasthost")) {
+		} else if(!strcmp(strbuf, "lastip")) {
 			BufferIO::DecodeUTF8(valbuf, wstr);
 			BufferIO::CopyWStr(wstr, gameConf.lasthost, 100);
 		} else if(!strcmp(strbuf, "lastport")) {
@@ -1075,15 +1075,15 @@ void Game::LoadConfig() {
 		} else if(!strcmp(strbuf, "roompass")) {
 			BufferIO::DecodeUTF8(valbuf, wstr);
 			BufferIO::CopyWStr(wstr, gameConf.roompass, 20);
-		} else if(!strcmp(strbuf, "automonsterpos")) {
+		} else if(!strcmp(strbuf, "auto_monster_placing")) {
 			gameConf.chkMAutoPos = atoi(valbuf);
-		} else if(!strcmp(strbuf, "autospellpos")) {
+		} else if(!strcmp(strbuf, "auto_spelltrap_placing")) {
 			gameConf.chkSTAutoPos = atoi(valbuf);
-		} else if(!strcmp(strbuf, "randompos")) {
+		} else if(!strcmp(strbuf, "random_card_placing")) {
 			gameConf.chkRandomPos = atoi(valbuf);
-		} else if(!strcmp(strbuf, "autochain")) {
+		} else if(!strcmp(strbuf, "auto_chain_order")) {
 			gameConf.chkAutoChain = atoi(valbuf);
-		} else if(!strcmp(strbuf, "waitchain")) {
+		} else if(!strcmp(strbuf, "no_delay_for_chain")) {
 			gameConf.chkWaitChain = atoi(valbuf);
 		} else if(!strcmp(strbuf, "mute_opponent")) {
 			gameConf.chkIgnore1 = atoi(valbuf);
