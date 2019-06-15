@@ -524,7 +524,7 @@ bool Game::Initialize() {
 	btnShuffleDeck = env->addButton(rect<s32>(5, 99, 60, 120), wDeckEdit, BUTTON_SHUFFLE_DECK, dataManager.GetSysString(1307));
 	btnSortDeck = env->addButton(rect<s32>(62, 99, 107, 120), wDeckEdit, BUTTON_SORT_DECK, dataManager.GetSysString(1305));
 	btnClearDeck = env->addButton(rect<s32>(109, 99, 154, 120), wDeckEdit, BUTTON_CLEAR_DECK, dataManager.GetSysString(1304));
-	btnGetDeck = env->addButton(rect<s32>(156, 99, 223, 120), wDeckEdit, BUTTON_GET_DECK, dataManager.GetSysString(1367));
+	btnGetDeck = env->addButton(rect<s32>(156, 99, 223, 120), wDeckEdit, BUTTON_GET_DECK, dataManager.GetSysString(1368));
 	btnSideOK = env->addButton(rect<s32>(510, 40, 820, 80), 0, BUTTON_SIDE_OK, dataManager.GetSysString(1334));
 	btnSideOK->setVisible(false);
 	btnSideShuffle = env->addButton(rect<s32>(310, 100, 370, 130), 0, BUTTON_SHUFFLE_DECK, dataManager.GetSysString(1307));
