@@ -243,9 +243,9 @@ void DuelClient::HandleSTOCPacketLan(char* data, unsigned int len) {
 		wchar_t file[256];
 		BufferIO::CopyWStr(pkt->host, host, 256);
 		BufferIO::CopyWStr(pkt->file, file, 256);
-		mainGame->gMutex.Lock();
+		mainGame->gMutex.lock();
 		ygo::imageManager.LoadTexture(static_cast<TextureType>(pkt->type), pkt->textureId, pkt->player, host, file);
-		mainGame->gMutex.Unlock();
+		mainGame->gMutex.unlock();
 		break;
 	}
 	case STOC_ERROR_MSG: {
