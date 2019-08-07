@@ -778,7 +778,7 @@ void Game::MainLoop() {
 		atkframe += 0.1f;
 		atkdy = (float)sin(atkframe);
 		driver->beginScene(true, true, SColor(0, 0, 0, 0));
-		gMutex.Lock();
+		gMutex.lock();
 		if(dInfo.isStarted) {
 			imageManager.LoadPendingTextures();
 			if (mainGame->showcardcode == 1 || mainGame->showcardcode == 3)
@@ -808,7 +808,7 @@ void Game::MainLoop() {
 		}
 		DrawGUI();
 		DrawSpec();
-		gMutex.Unlock();
+		gMutex.unlock();
 		if(signalFrame > 0) {
 			signalFrame--;
 			if(!signalFrame)
