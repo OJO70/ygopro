@@ -1066,7 +1066,7 @@ void Game::WaitFrameSignal(int frame) {
 	signalFrame = (gameConf.quick_animation && frame >= 12) ? 12 : frame;
 	frameSignal.Wait();
 }
-void Game::DrawThumb(code_pointer cp, position2di pos, std::unordered_map<int, int>* lflist) {
+void Game::DrawThumb(code_pointer cp, position2di pos, const std::unordered_map<int,int>* lflist, bool drag) {
 	int code = cp->first;
 	int lcode = cp->second.alias;
 	if(lcode == 0)
@@ -1078,7 +1078,7 @@ void Game::DrawThumb(code_pointer cp, position2di pos, std::unordered_map<int, i
 	driver->draw2DImage(img, mainGame->Resize(pos.X, pos.Y, pos.X + CARD_THUMB_WIDTH, pos.Y + CARD_THUMB_HEIGHT), rect<s32>(0, 0, size.Width, size.Height));
 
 	if(lflist->count(lcode)) {
-		switch((*lflist)[lcode]) {
+		switch((*lflist).at(lcode)) {
 		case 0:
 			driver->draw2DImage(imageManager.tLim, mainGame->Resize(pos.X, pos.Y, pos.X + 20, pos.Y + 20), recti(0, 0, 64, 64), 0, 0, true);
 			break;
