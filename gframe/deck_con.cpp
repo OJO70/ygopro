@@ -5,7 +5,6 @@
 #include "image_manager.h"
 #include "game.h"
 #include "duelclient.h"
-#include <algorithm>
 
 namespace ygo {
 
