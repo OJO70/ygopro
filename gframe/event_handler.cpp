@@ -307,7 +307,6 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 			case BUTTON_ANNUMBER_10:
 			case BUTTON_ANNUMBER_11:
 			case BUTTON_ANNUMBER_12: {
-				soundManager.PlaySoundEffect(SOUND_BUTTON);
 				for(int i = 0; i < mainGame->cbANNumber->getItemCount(); ++i) {
 					if(id - BUTTON_ANNUMBER_1 + 1 == mainGame->cbANNumber->getItemData(i)) {
 						mainGame->cbANNumber->setSelected(i);
