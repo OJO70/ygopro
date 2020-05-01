@@ -587,17 +587,17 @@ bool Game::Initialize() {
 	for(int filter = 0x1; filter != 0x2000000; filter <<= 1)
 		cbRace->addItem(dataManager.FormatRace(filter), filter);
 	stLabel7 = env->addStaticText(dataManager.GetSysString(1322), rect<s32>(235, 22 + 50 / 6, 295, 42 + 50 / 6), false, false, wFilter);
-	ebAttack = env->addEditBox(L"", rect<s32>(290, 20 + 50 / 6, 345, 40 + 50 / 6), true, wFilter);
+	ebAttack = env->addEditBox(L"", rect<s32>(290, 20 + 50 / 6, 345, 40 + 50 / 6), true, wFilter, EDITBOX_INPUTS);
 	ebAttack->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stLabel8 = env->addStaticText(dataManager.GetSysString(1323), rect<s32>(235, 42 + 75 / 6, 295, 62 + 75 / 6), false, false, wFilter);
-	ebDefense = env->addEditBox(L"", rect<s32>(290, 40 + 75 / 6, 345, 60 + 75 / 6), true, wFilter);
+	ebDefense = env->addEditBox(L"", rect<s32>(290, 40 + 75 / 6, 345, 60 + 75 / 6), true, wFilter, EDITBOX_INPUTS);
 	ebDefense->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stLabel9 = env->addStaticText(dataManager.GetSysString(1324), rect<s32>(5, 62 + 100 / 6, 80, 82 + 100 / 6), false, false, wFilter);
-	ebStar = env->addEditBox(L"", rect<s32>(80, 60 + 100 / 6, 125, 80 + 100 / 6), true, wFilter);
+	ebStar = env->addEditBox(L"", rect<s32>(80, 60 + 100 / 6, 125, 80 + 100 / 6), true, wFilter, EDITBOX_INPUTS);
 	ebStar->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stLabel12 = env->addStaticText(dataManager.GetSysString(1336), rect<s32>(130, 62 + 100 / 6, 180, 82 + 100 / 6), false, false, wFilter);
 	stLabel12->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_UPPERLEFT);
-	ebScale = env->addEditBox(L"", rect<s32>(180, 60 + 100 / 6, 225, 80 + 100 / 6), true, wFilter);
+	ebScale = env->addEditBox(L"", rect<s32>(180, 60 + 100 / 6, 225, 80 + 100 / 6), true, wFilter, EDITBOX_INPUTS);
 	ebScale->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stLabel10 = env->addStaticText(dataManager.GetSysString(1325), rect<s32>(235, 62 + 100 / 6, 295, 82 + 100 / 6), false, false, wFilter);
 	ebCardName = env->addEditBox(L"", rect<s32>(290, 60 + 100 / 6, 405, 80 + 100 / 6), true, wFilter, EDITBOX_KEYWORD);
