@@ -1084,7 +1084,13 @@ void Game::DrawThumb(code_pointer cp, position2di pos, const std::unordered_map<
 	dimension2d<u32> size = img->getOriginalSize();
 	driver->draw2DImage(img, mainGame->Resize(pos.X, pos.Y, pos.X + CARD_THUMB_WIDTH, pos.Y + CARD_THUMB_HEIGHT), rect<s32>(0, 0, size.Width, size.Height));
 
-	if(lflist->count(lcode)) {
+	if(cp->second.ot == 5)
+		driver->draw2DImage(imageManager.tRush, mainGame->Resize(pos.X + 3, pos.Y + 46, pos.X + 41, pos.Y + 65), recti(0, 0, 152, 76), 0, 0, true);
+
+	if(cp->second.ot == 5 && cp->second.category == 1) {
+		driver->draw2DImage(imageManager.tLegend, mainGame->Resize(pos.X, pos.Y, pos.X + 20, pos.Y + 20), recti(0, 0, 64, 64), 0, 0, true);
+	}
+	else if(lflist->count(lcode)) {
 		switch((*lflist).at(lcode)) {
 		case 0:
 			driver->draw2DImage(imageManager.tLim, mainGame->Resize(pos.X, pos.Y, pos.X + 20, pos.Y + 20), recti(0, 0, 64, 64), 0, 0, true);
@@ -1100,19 +1106,19 @@ void Game::DrawThumb(code_pointer cp, position2di pos, const std::unordered_map<
 	if(mainGame->cbLimit->getSelected() >= 4 && (cp->second.ot & mainGame->gameConf.defaultOT)) {
 		switch(cp->second.ot) {
 		case 1:
-			driver->draw2DImage(imageManager.tOT, recti(pos.X + 7, pos.Y + 50, pos.X + 37, pos.Y + 65), recti(0, 128, 128, 192), 0, 0, true);
+			driver->draw2DImage(imageManager.tOT, mainGame->Resize(pos.X + 7, pos.Y + 50, pos.X + 37, pos.Y + 65), recti(0, 128, 128, 192), 0, 0, true);
 			break;
 		case 2:
-			driver->draw2DImage(imageManager.tOT, recti(pos.X + 7, pos.Y + 50, pos.X + 37, pos.Y + 65), recti(0, 192, 128, 256), 0, 0, true);
+			driver->draw2DImage(imageManager.tOT, mainGame->Resize(pos.X + 7, pos.Y + 50, pos.X + 37, pos.Y + 65), recti(0, 192, 128, 256), 0, 0, true);
 			break;
 		}
 	} else if(mainGame->cbLimit->getSelected() >= 4 || !(cp->second.ot & mainGame->gameConf.defaultOT)) {
 		switch(cp->second.ot) {
 		case 1:
-			driver->draw2DImage(imageManager.tOT, recti(pos.X + 7, pos.Y + 50, pos.X + 37, pos.Y + 65), recti(0, 0, 128, 64), 0, 0, true);
+			driver->draw2DImage(imageManager.tOT, mainGame->Resize(pos.X + 7, pos.Y + 50, pos.X + 37, pos.Y + 65), recti(0, 0, 128, 64), 0, 0, true);
 			break;
 		case 2:
-			driver->draw2DImage(imageManager.tOT, recti(pos.X + 7, pos.Y + 50, pos.X + 37, pos.Y + 65), recti(0, 64, 128, 128), 0, 0, true);
+			driver->draw2DImage(imageManager.tOT, mainGame->Resize(pos.X + 7, pos.Y + 50, pos.X + 37, pos.Y + 65), recti(0, 64, 128, 128), 0, 0, true);
 			break;
 		}
 	}
@@ -1220,12 +1226,14 @@ void Game::DrawDeckBd() {
 				myswprintf(scaleBuffer, L" %d/%d", ptr->second.lscale, ptr->second.rscale);
 				wcscat(textBuffer, scaleBuffer);
 			}
-			if((ptr->second.ot & 0x3) == 1)
+			if(ptr->second.ot == 1)
 				wcscat(textBuffer, L" [OCG]");
-			else if((ptr->second.ot & 0x3) == 2)
+			else if(ptr->second.ot == 2)
 				wcscat(textBuffer, L" [TCG]");
-			else if((ptr->second.ot & 0x7) == 4)
-				wcscat(textBuffer, L" [Custom]");
+			else if(ptr->second.ot == 4)
+				wcscat(textBuffer, L" [Anime]");
+			else if (ptr->second.ot == 5)
+				wcscat(textBuffer, L" [RUSH]");
 			textFont->draw(textBuffer, mainGame->Resize(859, 208 + i * 66, 955, 229 + i * 66), 0xff000000, false, false);
 			textFont->draw(textBuffer, mainGame->Resize(860, 209 + i * 66, 955, 229 + i * 66), 0xffffffff, false, false);
 		} else {
@@ -1236,12 +1244,14 @@ void Game::DrawDeckBd() {
 			textFont->draw(ptype, mainGame->Resize(859, 186 + i * 66, 955, 207 + i * 66), 0xff000000, false, false);
 			textFont->draw(ptype, mainGame->Resize(860, 187 + i * 66, 955, 207 + i * 66), 0xffffffff, false, false);
 			textBuffer[0] = 0;
-			if((ptr->second.ot & 0x3) == 1)
+			if(ptr->second.ot == 1)
 				wcscat(textBuffer, L"[OCG]");
-			else if((ptr->second.ot & 0x3) == 2)
+			else if(ptr->second.ot == 2)
 				wcscat(textBuffer, L"[TCG]");
-			else if((ptr->second.ot & 0x7) == 4)
-				wcscat(textBuffer, L"[Custom]");
+			else if(ptr->second.ot == 4)
+				wcscat(textBuffer, L"[Anime]");
+			else if (ptr->second.ot == 5)
+				wcscat(textBuffer, L" [RUSH]");
 			textFont->draw(textBuffer, mainGame->Resize(859, 208 + i * 66, 955, 229 + i * 66), 0xff000000, false, false);
 			textFont->draw(textBuffer, mainGame->Resize(860, 209 + i * 66, 955, 229 + i * 66), 0xffffffff, false, false);
 		}

@@ -573,7 +573,8 @@ bool Game::Initialize() {
 	cbLimit->addItem(dataManager.GetSysString(1240));
 	cbLimit->addItem(dataManager.GetSysString(1241));
 	cbLimit->addItem(dataManager.GetSysString(1242));
-	cbLimit->addItem(dataManager.GetSysString(1243));
+	cbLimit->addItem(dataManager.GetSysString(1256));
+	cbLimit->addItem(dataManager.GetSysString(1257));
 	stLabel5 = env->addStaticText(dataManager.GetSysString(1319), rect<s32>(5, 22 + 50 / 6, 80, 42 + 50 / 6), false, false, wFilter);
 	cbAttribute = env->addComboBox(rect<s32>(80, 20 + 50 / 6, 225, 40 + 50 / 6), wFilter, COMBOBOX_ATTRIBUTE);
 	cbAttribute->setMaxSelectionRows(10);

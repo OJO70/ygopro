@@ -954,7 +954,9 @@ void DeckBuilder::FilterCards() {
 				continue;
 			if(filter_lm == 6 && data.ot != 3)
 				continue;
-			if(filter_lm == 7 && data.ot != 4)
+			if(filter_lm == 7 && data.ot != 5)
+				continue;
+			if(filter_lm == 8 && data.ot != 4)
 				continue;
 		}
 		bool is_target = true;
@@ -1174,14 +1176,20 @@ bool DeckBuilder::check_limit(code_pointer pointer) {
 	for(auto it = deckManager.current_deck.main.begin(); it != deckManager.current_deck.main.end(); ++it) {
 		if((*it)->first == limitcode || (*it)->second.alias == limitcode)
 			limit--;
+		if((*it)->second.ot == 5 && (*it)->second.category == 1 && pointer->second.ot == 5 && pointer->second.category == 1)
+			return false;
 	}
 	for(auto it = deckManager.current_deck.extra.begin(); it != deckManager.current_deck.extra.end(); ++it) {
 		if((*it)->first == limitcode || (*it)->second.alias == limitcode)
 			limit--;
+		if ((*it)->second.ot == 5 && (*it)->second.category == 1 && pointer->second.ot == 5 && pointer->second.category == 1)
+			return false;
 	}
 	for(auto it = deckManager.current_deck.side.begin(); it != deckManager.current_deck.side.end(); ++it) {
 		if((*it)->first == limitcode || (*it)->second.alias == limitcode)
 			limit--;
+		if ((*it)->second.ot == 5 && (*it)->second.category == 1 && pointer->second.ot == 5 && pointer->second.category == 1)
+			return false;
 	}
 	return limit > 0;
 }

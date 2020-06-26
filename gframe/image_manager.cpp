@@ -24,7 +24,9 @@ bool ImageManager::Initial() {
 	tTarget = driver->getTexture("textures/target.png");
 	tChainTarget = driver->getTexture("textures/chaintarget.png");
 	tLim = driver->getTexture("textures/lim.png");
+	tLegend = driver->getTexture("textures/legend.png");
 	tOT = driver->getTexture("textures/ot.png");
+	tRush = driver->getTexture("textures/rush.png");
 	tHand[0] = driver->getTexture("textures/f1.jpg");
 	tHand[1] = driver->getTexture("textures/f2.jpg");
 	tHand[2] = driver->getTexture("textures/f3.jpg");
