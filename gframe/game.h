@@ -230,6 +230,7 @@ public:
 	int negativecolor;
 	int setcolor;
 	int tipbackgroundcolor;
+	int usernamecolor;
 	wchar_t* lpcstring;
 	bool always_chain;
 	bool ignore_chain;

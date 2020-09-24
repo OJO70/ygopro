@@ -154,6 +154,8 @@ gui::CImageGUISkin* CGUISkinSystem::loadSkinFromFile(const c8 *skinname) {
 	ParseGUIElementStyle(skinConfig.MenuBar,"MenuBar");
 	ParseGUIElementStyle(skinConfig.MenuPane,"MenuBar/MenuPane");
 	ParseGUIElementStyle(skinConfig.MenuPressed,"MenuBar/MenuPressed");
+	ParseGUIElementStyle(skinConfig.EditBox,"EditBox");
+	ParseGUIElementStyle(skinConfig.EditBoxDisabled,"EditBox/EditBoxDisabled");
 	ParseGUIElementStyle(skinConfig.CheckBox,"CheckBox");
 	ParseGUIElementStyle(skinConfig.CheckBoxDisabled,"CheckBox/CheckBoxDisabled");
 	ParseGUIElementStyle(skinConfig.ComboBox,"ComboBox");
@@ -183,6 +185,8 @@ gui::CImageGUISkin* CGUISkinSystem::loadSkinFromFile(const c8 *skinname) {
 	loadProperty((core::stringw)L"StatColor", skin);
 	loadProperty((core::stringw)L"BonusColor", skin);
 	loadProperty((core::stringw)L"NegativeColor", skin);
+	loadProperty((core::stringw)L"TipBackgroundColor", skin);
+	loadProperty((core::stringw)L"UsernameColor", skin);
 	skin->loadConfig(skinConfig);
 	
 	tmp = registry->getValueAsCStr(L"texture",L"Skin/Properties/Font");

@@ -540,17 +540,17 @@ void Game::DrawMisc() {
 	recti p1size = mainGame->Resize(416, 31, 815, 50);
 	recti p2size = mainGame->Resize(905, 31, 906, 50);
 	if(!dInfo.isTag || !dInfo.tag_player[0])
-		textFont->draw(dInfo.hostname, p1size, 0xffffffff, false, false, 0);
+		textFont->draw(dInfo.hostname, p1size, mainGame->usernamecolor, false, false, 0);
 	else
-		textFont->draw(dInfo.hostname_tag, p1size, 0xffffffff, false, false, 0);
+		textFont->draw(dInfo.hostname_tag, p1size, mainGame->usernamecolor, false, false, 0);
 	if(!dInfo.isTag || !dInfo.tag_player[1]) {
 		auto cld = textFont->getDimension(dInfo.clientname);
 		p2size.UpperLeftCorner.X -= cld.Width;
-		textFont->draw(dInfo.clientname, p2size, 0xffffffff, false, false, 0);
+		textFont->draw(dInfo.clientname, p2size, mainGame->usernamecolor, false, false, 0);
 	} else {
 		auto cld = textFont->getDimension(dInfo.clientname_tag);
 		p2size.UpperLeftCorner.X -= cld.Width;
-		textFont->draw(dInfo.clientname_tag, p2size, 0xffffffff, false, false, 0);
+		textFont->draw(dInfo.clientname_tag, p2size, mainGame->usernamecolor, false, false, 0);
 	}
 	driver->draw2DRectangle(mainGame->Resize(632, 10, 688, 30), 0x00000000, 0x00000000, 0xffffffff, 0xffffffff);
 	driver->draw2DRectangle(mainGame->Resize(632, 30, 688, 50), 0xffffffff, 0xffffffff, 0x00000000, 0x00000000);
@@ -1100,7 +1100,7 @@ void Game::DrawThumb(code_pointer cp, position2di pos, const std::unordered_map<
 	if(cp->second.ot == 5)
 		driver->draw2DImage(imageManager.tRush, mainGame->Resize(pos.X + 3, pos.Y + 46, pos.X + 41, pos.Y + 65), recti(0, 0, 152, 76), 0, 0, true);
 
-	if(cp->second.ot == 5 && cp->second.category == 1) {
+	if(cp->second.ot == 5 && cp->second.category == 128) {
 		driver->draw2DImage(imageManager.tLegend, mainGame->Resize(pos.X, pos.Y, pos.X + 20, pos.Y + 20), recti(0, 0, 64, 64), 0, 0, true);
 	}
 	else if(lflist->count(lcode)) {

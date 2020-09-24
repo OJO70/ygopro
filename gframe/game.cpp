@@ -42,7 +42,8 @@ bool Game::Initialize() {
 	bonuscolor = 0xffffff00;
 	negativecolor = 0xffff2090;
 	setcolor = 0xff0000ff;
-	tipbackgroundcolor = 0xff000000;
+	tipbackgroundcolor = 0xffffffff;
+	usernamecolor = 0xffffffff;
 
 	if (gameConf.skin_index >= 0)
 	{
@@ -61,7 +62,11 @@ bool Game::Initialize() {
 				bonuscolor = ExtractColor(L"BonusColor", skinSystem, bonuscolor);
 				negativecolor = ExtractColor(L"NegativeColor", skinSystem, negativecolor);
 				setcolor = ExtractColor(L"SetColor", skinSystem, setcolor);
-				tipbackgroundcolor = ExtractColor(L"TipBackgroundColor", skinSystem, tipbackgroundcolor);
+				tipbackgroundcolor = ExtractColor(L"TipBackgroundColor", skinSystem, setcolor);
+				usernamecolor = ExtractColor(L"UsernameColor", skinSystem, setcolor);
+
+				if (skinSystem->getProperty("TipBackgroundColor") == "")
+					tipbackgroundcolor = 0xff000000;
 			}
 		}
 	}
@@ -273,11 +278,20 @@ bool Game::Initialize() {
 	stName = env->addStaticText(L"", rect<s32>(10, 10, 287, 32), true, false, tabInfo, -1, false);
 	stName->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stInfo = env->addStaticText(L"", rect<s32>(15, 37, 296, 60), false, true, tabInfo, -1, false);
-	stInfo->setOverrideColor(SColor(255, 0, 0, 255));
+	if (gameConf.skin_index >= 0)
+		stInfo->setOverrideColor(SColor(255, 255, 0, 0));
+	else
+		stInfo->setOverrideColor(SColor(255, 0, 0, 255));
 	stDataInfo = env->addStaticText(L"", rect<s32>(15, 60, 296, 83), false, true, tabInfo, -1, false);
-	stDataInfo->setOverrideColor(SColor(255, 0, 0, 255));
+	if (gameConf.skin_index >= 0)
+		stDataInfo->setOverrideColor(SColor(255, 255, 0, 0));
+	else
+		stDataInfo->setOverrideColor(SColor(255, 0, 0, 255));
 	stSetName = env->addStaticText(L"", rect<s32>(15, 83, 296, 106), false, true, tabInfo, -1, false);
-	stSetName->setOverrideColor(SColor(255, 0, 0, 255));
+	if (gameConf.skin_index >= 0)
+		stSetName->setOverrideColor(SColor(255, 255, 0, 0));
+	else
+		stSetName->setOverrideColor(SColor(255, 0, 0, 255));
 	stText = env->addStaticText(L"", rect<s32>(15, 106, 287, 324), false, true, tabInfo, -1, false);
 	scrCardText = env->addScrollBar(false, rect<s32>(267, 106, 287, 324), tabInfo, SCROLL_CARDTEXT);
 	scrCardText->setLargeStep(1);
@@ -737,10 +751,7 @@ bool Game::Initialize() {
 	btnLeaveGame->setVisible(false);
 	//tip
 	stTip = env->addStaticText(L"", rect<s32>(0, 0, 150, 150), false, true, 0, -1, true);
-	if (gameConf.skin_index >= 0)
-		stTip->setBackgroundColor(tipbackgroundcolor);
-	else
-		stTip->setBackgroundColor(0xffffffff);
+	stTip->setBackgroundColor(tipbackgroundcolor);
 	stTip->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stTip->setVisible(false);
 	//tip for cards in select / display list
@@ -1519,6 +1530,8 @@ void Game::OnResize()
 	btnReplayUndo->setRelativePosition(Resize(5, 80, 85, 100));
 	btnReplaySwap->setRelativePosition(Resize(5, 30, 85, 50));
 	btnReplayExit->setRelativePosition(Resize(5, 105, 85, 125));
+
+	btnSpectatorSwap->setRelativePosition(Resize(205, 100, 295, 135));
 
 	btnMarksFilter->setRelativePosition(Resize(80, 96, 225, 118));
 	wLinkMarks->setRelativePosition(Resize(700, 30, 820, 150));

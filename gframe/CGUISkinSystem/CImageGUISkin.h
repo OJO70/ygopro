@@ -33,7 +33,7 @@ struct SImageGUIElementStyle
 
 struct SImageGUISkinConfig
 {
-    SImageGUIElementStyle SunkenPane, Window, Button, ButtonPressed, ButtonDisabled, ProgressBar, ProgressBarFilled, TabButton, TabButtonPressed, TabBody, MenuBar, MenuPane, MenuPressed, CheckBox, CheckBoxDisabled, ComboBox, ComboBoxDisabled;
+    SImageGUIElementStyle SunkenPane, Window, Button, ButtonPressed, ButtonDisabled, ProgressBar, ProgressBarFilled, TabButton, TabButtonPressed, TabBody, MenuBar, MenuPane, MenuPressed, CheckBox, CheckBoxDisabled, ComboBox, ComboBoxDisabled, EditBox, EditBoxDisabled;
 	video::SColor CheckBoxColor;
 };
 

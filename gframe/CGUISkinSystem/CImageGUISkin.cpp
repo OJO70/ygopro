@@ -201,6 +201,35 @@ void CImageGUISkin::draw3DSunkenPane(IGUIElement* element,
 			drawElementStyle( Config.ComboBoxDisabled, rect, clip );	
 		}
 	}
+	else if (element->getType() == EGUIET_EDIT_BOX)
+	{
+		if (element->isEnabled())
+		{
+			if (!Config.EditBox.Texture)
+			{
+				FallbackSkin->draw3DSunkenPane(element, bgcolor, flat, fillBackGround, rect, clip);
+				return;
+			}
+
+			if (fillBackGround)
+				FallbackSkin->draw2DRectangle(element, bgcolor, rect, clip);
+
+			drawElementStyle(Config.EditBox, rect, clip);
+		}
+		else
+		{
+			if (!Config.EditBoxDisabled.Texture)
+			{
+				FallbackSkin->draw3DSunkenPane(element, bgcolor, flat, fillBackGround, rect, clip);
+				return;
+			}
+
+			if (fillBackGround)
+				FallbackSkin->draw2DRectangle(element, bgcolor, rect, clip);
+
+			drawElementStyle(Config.EditBoxDisabled, rect, clip);
+		}
+	}
 	else
 	{
 		if ( !Config.SunkenPane.Texture )
