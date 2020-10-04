@@ -225,13 +225,13 @@ bool DeckBuilder::OnEvent(const irr::SEvent& event) {
 				break;
 			}
 			case BUTTON_CATEGORY_OK: {
-				filter_effect = 0;
-				long long filter = 0x1;
-				for(int i = 0; i < 32; ++i, filter <<= 1)
-					if(mainGame->chkCategory[i]->isChecked())
-						filter_effect |= filter;
-				mainGame->btnEffectFilter->setPressed(filter_effect > 0);
-				mainGame->HideElement(mainGame->wCategories);
+				//filter_effect = 0;
+				//long long filter = 0x1;
+				//for(int i = 0; i < 32; ++i, filter <<= 1)
+				//	if(mainGame->chkCategory[i]->isChecked())
+				//		filter_effect |= filter;
+				//mainGame->btnEffectFilter->setPressed(filter_effect > 0);
+				//mainGame->HideElement(mainGame->wCategories);
 				InstantSearch();
 				break;
 			}
@@ -1033,7 +1033,7 @@ void DeckBuilder::ClearFilter() {
 	filter_marks = 0;
 	for(int i = 0; i < 8; i++)
 		mainGame->btnMark[i]->setPressed(false);
-	mainGame->btnEffectFilter->setPressed(false);
+	//mainGame->btnEffectFilter->setPressed(false);
 	mainGame->btnMarksFilter->setPressed(false);
 }
 void DeckBuilder::SortList() {

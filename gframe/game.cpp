@@ -536,7 +536,7 @@ bool Game::Initialize() {
 	for(unsigned int i = 0; i < deckManager._lfList.size(); ++i)
 		cbDBLFList->addItem(deckManager._lfList[i].listName.c_str());
 	btnSaveDeck = env->addButton(rect<s32>(225, 35, 290, 60), wDeckEdit, BUTTON_SAVE_DECK, dataManager.GetSysString(1302));
-	btnSetDefaultDeck = env->addButton(rect<s32>(225, 5, 290, 30), wDeckEdit, BUTTON_SET_DEFAULT_DECK, dataManager.GetSysString(1361));
+	btnSetDefaultDeck = env->addButton(rect<s32>(225, 5, 290, 30), wDeckEdit, BUTTON_SET_DEFAULT_DECK, dataManager.GetSysString(1369));
 	ebDeckname = env->addEditBox(L"", rect<s32>(80, 65, 223, 90), true, wDeckEdit, -1);
 	ebDeckname->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	btnSaveDeckAs = env->addButton(rect<s32>(225, 65, 290, 90), wDeckEdit, BUTTON_SAVE_DECK_AS, dataManager.GetSysString(1303));
@@ -602,10 +602,10 @@ bool Game::Initialize() {
 	for(int filter = 0x1; filter != 0x2000000; filter <<= 1)
 		cbRace->addItem(dataManager.FormatRace(filter), filter);
 	stLabel7 = env->addStaticText(dataManager.GetSysString(1322), rect<s32>(235, 22 + 50 / 6, 295, 42 + 50 / 6), false, false, wFilter);
-	ebAttack = env->addEditBox(L"", rect<s32>(290, 20 + 50 / 6, 345, 40 + 50 / 6), true, wFilter, EDITBOX_INPUTS);
+	ebAttack = env->addEditBox(L"", rect<s32>(290, 20 + 50 / 6, 405, 40 + 50 / 6), true, wFilter, EDITBOX_INPUTS);
 	ebAttack->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stLabel8 = env->addStaticText(dataManager.GetSysString(1323), rect<s32>(235, 42 + 75 / 6, 295, 62 + 75 / 6), false, false, wFilter);
-	ebDefense = env->addEditBox(L"", rect<s32>(290, 40 + 75 / 6, 345, 60 + 75 / 6), true, wFilter, EDITBOX_INPUTS);
+	ebDefense = env->addEditBox(L"", rect<s32>(290, 40 + 75 / 6, 405, 60 + 75 / 6), true, wFilter, EDITBOX_INPUTS);
 	ebDefense->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stLabel9 = env->addStaticText(dataManager.GetSysString(1324), rect<s32>(5, 62 + 100 / 6, 80, 82 + 100 / 6), false, false, wFilter);
 	ebStar = env->addEditBox(L"", rect<s32>(80, 60 + 100 / 6, 125, 80 + 100 / 6), true, wFilter, EDITBOX_INPUTS);
@@ -617,7 +617,7 @@ bool Game::Initialize() {
 	stLabel10 = env->addStaticText(dataManager.GetSysString(1325), rect<s32>(235, 62 + 100 / 6, 295, 82 + 100 / 6), false, false, wFilter);
 	ebCardName = env->addEditBox(L"", rect<s32>(290, 60 + 100 / 6, 405, 80 + 100 / 6), true, wFilter, EDITBOX_KEYWORD);
 	ebCardName->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
-	btnEffectFilter = env->addButton(rect<s32>(350, 20 + 50 / 6, 405, 60 + 75 / 6), wFilter, BUTTON_EFFECT_FILTER, dataManager.GetSysString(1326));
+	//btnEffectFilter = env->addButton(rect<s32>(350, 20 + 50 / 6, 405, 60 + 75 / 6), wFilter, BUTTON_EFFECT_FILTER, dataManager.GetSysString(1326));
 	btnStartFilter = env->addButton(rect<s32>(235, 80 + 125 / 6, 405, 100 + 125 / 6), wFilter, BUTTON_START_FILTER, dataManager.GetSysString(1327));
 	if(gameConf.separate_clear_button) {
 		btnStartFilter->setRelativePosition(rect<s32>(290, 80 + 125 / 6, 405, 100 + 125 / 6));
@@ -1568,10 +1568,10 @@ void Game::OnResize()
 	cbLimit->setRelativePosition(Resize(290, 3, 405, 23));
 	ebStar->setRelativePosition(Resize(80, 72, 125, 92));
 	ebScale->setRelativePosition(Resize(180, 72, 225, 92));
-	ebAttack->setRelativePosition(Resize(290, 26, 345, 46));
-	ebDefense->setRelativePosition(Resize(290, 49, 345, 69));
+	ebAttack->setRelativePosition(Resize(290, 26, 405, 46));
+	ebDefense->setRelativePosition(Resize(290, 49, 405, 69));
 	ebCardName->setRelativePosition(Resize(290, 72, 405, 92));
-	btnEffectFilter->setRelativePosition(Resize(350, 26, 405, 69));
+	//btnEffectFilter->setRelativePosition(Resize(350, 26, 405, 69));
 	btnStartFilter->setRelativePosition(Resize(290, 96, 405, 118));
 	btnClearFilter->setRelativePosition(Resize(235, 96, 285, 118));
 
