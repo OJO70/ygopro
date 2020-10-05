@@ -188,6 +188,7 @@ gui::CImageGUISkin* CGUISkinSystem::loadSkinFromFile(const c8 *skinname) {
 	loadProperty((core::stringw)L"CardInfoColor", skin);
 	loadProperty((core::stringw)L"TipBackgroundColor", skin);
 	loadProperty((core::stringw)L"UsernameColor", skin);
+	loadProperty((core::stringw)L"HideCardBorder", skin);
 	skin->loadConfig(skinConfig);
 	
 	tmp = registry->getValueAsCStr(L"texture",L"Skin/Properties/Font");

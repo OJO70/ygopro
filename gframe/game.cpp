@@ -66,6 +66,18 @@ bool Game::Initialize() {
 				cardinfocolor = ExtractColor(L"CardInfoColor", skinSystem, cardinfocolor);
 				tipbackgroundcolor = ExtractColor(L"TipBackgroundColor", skinSystem, tipbackgroundcolor);
 				usernamecolor = ExtractColor(L"UsernameColor", skinSystem, usernamecolor);
+
+				if (skinSystem->getProperty("HideCardBorder") == "1")
+				{
+					cardImgBgX = 10;
+					cardImgBgY = 9;
+					cardImgBgW = 187;
+					cardImgBgH = 263;
+					cardImgX = 0;
+					cardImgY = 0;
+					cardImgW = 177;
+					cardImgH = 254;
+				}
 			}
 		}
 	}
@@ -251,10 +263,10 @@ bool Game::Initialize() {
 	btnHostPrepStart = env->addButton(rect<s32>(230, 280, 340, 305), wHostPrepare, BUTTON_HP_START, dataManager.GetSysString(1215));
 	btnHostPrepCancel = env->addButton(rect<s32>(350, 280, 460, 305), wHostPrepare, BUTTON_HP_CANCEL, dataManager.GetSysString(1210));
 	//img
-	wCardImg = env->addStaticText(L"", rect<s32>(1, 1, 1 + CARD_IMG_WIDTH + 20, 1 + CARD_IMG_HEIGHT + 18), true, false, 0, -1, true);
+	wCardImg = env->addStaticText(L"", rect<s32>(cardImgBgX, cardImgBgY, cardImgBgW, cardImgBgH), true, false, 0, -1, true);
 	wCardImg->setBackgroundColor(0xc0c0c0c0);
 	wCardImg->setVisible(false);
-	imgCard = env->addImage(rect<s32>(10, 9, 10 + CARD_IMG_WIDTH, 9 + CARD_IMG_HEIGHT), wCardImg);
+	imgCard = env->addImage(rect<s32>(cardImgX, cardImgY, cardImgW, cardImgH), wCardImg);
 	imgCard->setImage(imageManager.tCover[0]);
 	imgCard->setUseAlphaChannel(true);
 	//phase
@@ -1505,8 +1517,8 @@ void Game::OnResize()
 	wChat->setRelativePosition(ResizeWin(305, 615, 1020, 640, true));
 	ebChatInput->setRelativePosition(recti(3, 2, window_size.Width - wChat->getRelativePosition().UpperLeftCorner.X - 6, 22));
 
-	wCardImg->setRelativePosition(Resize(1, 1, 199, 273));
-	imgCard->setRelativePosition(Resize(10, 9, 187, 263));
+	wCardImg->setRelativePosition(Resize(cardImgBgX, cardImgBgY, cardImgBgW, cardImgBgH));
+	imgCard->setRelativePosition(Resize(cardImgX, cardImgY, cardImgW, cardImgH));
 	wInfos->setRelativePosition(Resize(1, 275, 301, 639));
 	stName->setRelativePosition(recti(10, 10, 287 * window_size.Width / 1024, 32));
 	stInfo->setRelativePosition(recti(15, 37, 296 * window_size.Width / 1024, 60));

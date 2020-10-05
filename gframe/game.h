@@ -237,6 +237,15 @@ public:
 	bool ignore_chain;
 	bool chain_when_avail;
 
+	int cardImgBgX = 1;
+	int cardImgBgY = 1;
+	int cardImgBgW = 198;
+	int cardImgBgH = 273;
+	int cardImgX = 10;
+	int cardImgY = 9;
+	int cardImgW = 187;
+	int cardImgH = 263;
+
 	bool is_building;
 	bool is_siding;
 	
