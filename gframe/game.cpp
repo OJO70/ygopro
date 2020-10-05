@@ -514,20 +514,20 @@ bool Game::Initialize() {
 	stHintMsg->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stHintMsg->setVisible(false);
 	//cmd menu
-	wCmdMenu = env->addWindow(rect<s32>(10, 10, 110, 179), false, L"");
+	wCmdMenu = env->addWindow(rect<s32>(10, 10, 125, 179), false, L"");
 	wCmdMenu->setDrawTitlebar(false);
 	wCmdMenu->setVisible(false);
 	wCmdMenu->getCloseButton()->setVisible(false);
-	btnActivate = env->addButton(rect<s32>(1, 1, 99, 21), wCmdMenu, BUTTON_CMD_ACTIVATE, dataManager.GetSysString(1150));
-	btnSummon = env->addButton(rect<s32>(1, 22, 99, 42), wCmdMenu, BUTTON_CMD_SUMMON, dataManager.GetSysString(1151));
-	btnSPSummon = env->addButton(rect<s32>(1, 43, 99, 63), wCmdMenu, BUTTON_CMD_SPSUMMON, dataManager.GetSysString(1152));
-	btnMSet = env->addButton(rect<s32>(1, 64, 99, 84), wCmdMenu, BUTTON_CMD_MSET, dataManager.GetSysString(1153));
-	btnSSet = env->addButton(rect<s32>(1, 85, 99, 105), wCmdMenu, BUTTON_CMD_SSET, dataManager.GetSysString(1153));
-	btnRepos = env->addButton(rect<s32>(1, 106, 99, 126), wCmdMenu, BUTTON_CMD_REPOS, dataManager.GetSysString(1154));
-	btnAttack = env->addButton(rect<s32>(1, 127, 99, 147), wCmdMenu, BUTTON_CMD_ATTACK, dataManager.GetSysString(1157));
-	btnShowList = env->addButton(rect<s32>(1, 148, 99, 168), wCmdMenu, BUTTON_CMD_SHOWLIST, dataManager.GetSysString(1158));
-	btnOperation = env->addButton(rect<s32>(1, 169, 99, 189), wCmdMenu, BUTTON_CMD_ACTIVATE, dataManager.GetSysString(1161));
-	btnReset = env->addButton(rect<s32>(1, 190, 99, 210), wCmdMenu, BUTTON_CMD_RESET, dataManager.GetSysString(1162));
+	btnActivate = env->addButton(rect<s32>(1, 1, 114, 21), wCmdMenu, BUTTON_CMD_ACTIVATE, dataManager.GetSysString(1150));
+	btnSummon = env->addButton(rect<s32>(1, 22, 114, 42), wCmdMenu, BUTTON_CMD_SUMMON, dataManager.GetSysString(1151));
+	btnSPSummon = env->addButton(rect<s32>(1, 43, 114, 63), wCmdMenu, BUTTON_CMD_SPSUMMON, dataManager.GetSysString(1152));
+	btnMSet = env->addButton(rect<s32>(1, 64, 114, 84), wCmdMenu, BUTTON_CMD_MSET, dataManager.GetSysString(1153));
+	btnSSet = env->addButton(rect<s32>(1, 85, 114, 105), wCmdMenu, BUTTON_CMD_SSET, dataManager.GetSysString(1153));
+	btnRepos = env->addButton(rect<s32>(1, 106, 114, 126), wCmdMenu, BUTTON_CMD_REPOS, dataManager.GetSysString(1154));
+	btnAttack = env->addButton(rect<s32>(1, 127, 114, 147), wCmdMenu, BUTTON_CMD_ATTACK, dataManager.GetSysString(1157));
+	btnShowList = env->addButton(rect<s32>(1, 148, 114, 168), wCmdMenu, BUTTON_CMD_SHOWLIST, dataManager.GetSysString(1158));
+	btnOperation = env->addButton(rect<s32>(1, 169, 114, 189), wCmdMenu, BUTTON_CMD_ACTIVATE, dataManager.GetSysString(1161));
+	btnReset = env->addButton(rect<s32>(1, 190, 114, 210), wCmdMenu, BUTTON_CMD_RESET, dataManager.GetSysString(1162));
 	//deck edit
 	wDeckEdit = env->addStaticText(L"", rect<s32>(309, 5, 605, 130), true, false, 0, -1, true);
 	wDeckEdit->setVisible(false);

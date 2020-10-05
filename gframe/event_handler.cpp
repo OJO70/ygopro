@@ -2188,7 +2188,7 @@ void ClientField::ShowMenu(int flag, int x, int y) {
 	position2di mouse = mainGame->Resize(x, y);
 	x = mouse.X;
 	y = mouse.Y;
-	mainGame->wCmdMenu->setRelativePosition(irr::core::recti(x - 20 , y - 20 - height, x + 80, y - 20));
+	mainGame->wCmdMenu->setRelativePosition(irr::core::recti(x - 20 , y - 20 - height, x + 95, y - 20));
 }
 void ClientField::UpdateChainButtons() {
 	if(mainGame->btnChainAlways->isVisible()) {
