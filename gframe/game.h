@@ -229,6 +229,7 @@ public:
 	int bonuscolor;
 	int negativecolor;
 	int setcolor;
+	int cardinfocolor;
 	int tipbackgroundcolor;
 	int usernamecolor;
 	wchar_t* lpcstring;

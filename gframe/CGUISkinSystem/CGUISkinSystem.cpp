@@ -185,6 +185,7 @@ gui::CImageGUISkin* CGUISkinSystem::loadSkinFromFile(const c8 *skinname) {
 	loadProperty((core::stringw)L"StatColor", skin);
 	loadProperty((core::stringw)L"BonusColor", skin);
 	loadProperty((core::stringw)L"NegativeColor", skin);
+	loadProperty((core::stringw)L"CardInfoColor", skin);
 	loadProperty((core::stringw)L"TipBackgroundColor", skin);
 	loadProperty((core::stringw)L"UsernameColor", skin);
 	skin->loadConfig(skinConfig);

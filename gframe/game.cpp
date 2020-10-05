@@ -34,7 +34,7 @@ bool Game::Initialize() {
 	}
 	
 	// Apply skin
-	specialcolor = 0xFF0000FF;
+	specialcolor = 0xff0000ff;
 	turncolor = 0x8000ffff;
 	playerlpcolor = 0xffffff00;
 	extracolor = 0xffffff00;
@@ -42,7 +42,8 @@ bool Game::Initialize() {
 	bonuscolor = 0xffffff00;
 	negativecolor = 0xffff2090;
 	setcolor = 0xff0000ff;
-	tipbackgroundcolor = 0xffffffff;
+	cardinfocolor = 0xff0000ff;
+	tipbackgroundcolor = 0xff000000;
 	usernamecolor = 0xffffffff;
 
 	if (gameConf.skin_index >= 0)
@@ -62,14 +63,14 @@ bool Game::Initialize() {
 				bonuscolor = ExtractColor(L"BonusColor", skinSystem, bonuscolor);
 				negativecolor = ExtractColor(L"NegativeColor", skinSystem, negativecolor);
 				setcolor = ExtractColor(L"SetColor", skinSystem, setcolor);
-				tipbackgroundcolor = ExtractColor(L"TipBackgroundColor", skinSystem, setcolor);
-				usernamecolor = ExtractColor(L"UsernameColor", skinSystem, setcolor);
-
-				if (skinSystem->getProperty("TipBackgroundColor") == "")
-					tipbackgroundcolor = 0xff000000;
+				cardinfocolor = ExtractColor(L"CardInfoColor", skinSystem, cardinfocolor);
+				tipbackgroundcolor = ExtractColor(L"TipBackgroundColor", skinSystem, tipbackgroundcolor);
+				usernamecolor = ExtractColor(L"UsernameColor", skinSystem, usernamecolor);
 			}
 		}
 	}
+	else
+		tipbackgroundcolor = 0xffffffff;
 	
 	linePatternD3D = 0;
 	linePatternGL = 0x0f0f;
@@ -278,20 +279,11 @@ bool Game::Initialize() {
 	stName = env->addStaticText(L"", rect<s32>(10, 10, 287, 32), true, false, tabInfo, -1, false);
 	stName->setTextAlignment(irr::gui::EGUIA_CENTER, irr::gui::EGUIA_CENTER);
 	stInfo = env->addStaticText(L"", rect<s32>(15, 37, 296, 60), false, true, tabInfo, -1, false);
-	if (gameConf.skin_index >= 0)
-		stInfo->setOverrideColor(SColor(255, 255, 0, 0));
-	else
-		stInfo->setOverrideColor(SColor(255, 0, 0, 255));
+	stInfo->setOverrideColor(cardinfocolor);
 	stDataInfo = env->addStaticText(L"", rect<s32>(15, 60, 296, 83), false, true, tabInfo, -1, false);
-	if (gameConf.skin_index >= 0)
-		stDataInfo->setOverrideColor(SColor(255, 255, 0, 0));
-	else
-		stDataInfo->setOverrideColor(SColor(255, 0, 0, 255));
+	stDataInfo->setOverrideColor(cardinfocolor);
 	stSetName = env->addStaticText(L"", rect<s32>(15, 83, 296, 106), false, true, tabInfo, -1, false);
-	if (gameConf.skin_index >= 0)
-		stSetName->setOverrideColor(SColor(255, 255, 0, 0));
-	else
-		stSetName->setOverrideColor(SColor(255, 0, 0, 255));
+	stSetName->setOverrideColor(cardinfocolor);
 	stText = env->addStaticText(L"", rect<s32>(15, 106, 287, 324), false, true, tabInfo, -1, false);
 	scrCardText = env->addScrollBar(false, rect<s32>(267, 106, 287, 324), tabInfo, SCROLL_CARDTEXT);
 	scrCardText->setLargeStep(1);
