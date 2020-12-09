@@ -400,7 +400,7 @@ void Game::DrawCard(ClientCard* pcard) {
 void Game::DrawMisc() {
 	static irr::core::vector3df act_rot(0, 0, 0);
 	int rule = (dInfo.duel_rule >= 4) ? 1 : 0;
-	irr::core::matrix4 im, ic, it;
+	irr::core::matrix4 im, ic, it, ig;
 	act_rot.Z += 0.02f;
 	im.setRotationRadians(act_rot);
 	matManager.mTexture.setTexture(0, imageManager.tAct);
@@ -484,6 +484,18 @@ void Game::DrawMisc() {
 			driver->setTransform(irr::video::ETS_WORLD, it);
 			driver->drawVertexPrimitiveList(matManager.vChainNum, 4, matManager.iRectangle, 2);
 		}
+	}
+	if(dField.cant_check_grave) {
+		matManager.mTexture.setTexture(0, imageManager.tNegated);
+		driver->setMaterial(matManager.mTexture);
+		ig.setTranslation(vector3df((matManager.vFieldGrave[0][rule][0].Pos.X + matManager.vFieldGrave[0][rule][1].Pos.X) / 2,
+			(matManager.vFieldGrave[0][rule][0].Pos.Y + matManager.vFieldGrave[0][rule][2].Pos.Y) / 2, dField.grave[0].size() * 0.01f + 0.02f));
+		driver->setTransform(irr::video::ETS_WORLD, ig);
+		driver->drawVertexPrimitiveList(matManager.vNegate, 4, matManager.iRectangle, 2);
+		ig.setTranslation(vector3df((matManager.vFieldGrave[1][rule][0].Pos.X + matManager.vFieldGrave[1][rule][1].Pos.X) / 2,
+			(matManager.vFieldGrave[1][rule][0].Pos.Y + matManager.vFieldGrave[1][rule][2].Pos.Y) / 2, dField.grave[1].size() * 0.01f + 0.02f));
+		driver->setTransform(irr::video::ETS_WORLD, ig);
+		driver->drawVertexPrimitiveList(matManager.vNegate, 4, matManager.iRectangle, 2);
 	}
 	DrawAvatars();
 	//finish button
