@@ -373,6 +373,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 					} else {
 						command_card = clicked_card;
 						ShowSelectOption();
+						select_ready = false;
 						ShowCancelOrFinishButton(1);
 					}
 				} else {
