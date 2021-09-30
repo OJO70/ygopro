@@ -148,6 +148,7 @@ public:
 	void AddDebugMsg(const char* msgbuf);
 	void ErrorLog(const char* msgbuf);
 	void ClearTextures();
+	void CloseGameButtons();
 	void CloseDuelWindow();
 	void PlayMusic(char* song, bool loop);
 	void PlaySound(char* sound);

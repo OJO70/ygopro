@@ -1417,6 +1417,15 @@ void Game::ClearTextures() {
 	}
 	imageManager.ClearTexture();
 }
+void Game::CloseGameButtons() {
+	btnChainIgnore->setVisible(false);
+	btnChainAlways->setVisible(false);
+	btnChainWhenAvail->setVisible(false);
+	btnCancelOrFinish->setVisible(false);
+	btnSpectatorSwap->setVisible(false);
+	btnShuffle->setVisible(false);
+	wSurrender->setVisible(false);
+}
 void Game::CloseDuelWindow() {
 	for(auto wit = fadingList.begin(); wit != fadingList.end(); ++wit) {
 		if(wit->isFadein)
