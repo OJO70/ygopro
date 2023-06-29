@@ -66,18 +66,6 @@ bool Game::Initialize() {
 				cardinfocolor = ExtractColor(L"CardInfoColor", skinSystem, cardinfocolor);
 				tipbackgroundcolor = ExtractColor(L"TipBackgroundColor", skinSystem, tipbackgroundcolor);
 				usernamecolor = ExtractColor(L"UsernameColor", skinSystem, usernamecolor);
-
-				if (skinSystem->getProperty("HideCardBorder") == "1")
-				{
-					cardImgBgX = 10;
-					cardImgBgY = 9;
-					cardImgBgW = 187;
-					cardImgBgH = 263;
-					cardImgX = 0;
-					cardImgY = 0;
-					cardImgW = 177;
-					cardImgH = 254;
-				}
 			}
 		}
 	}
@@ -263,12 +251,10 @@ bool Game::Initialize() {
 	btnHostPrepStart = env->addButton(rect<s32>(230, 280, 340, 305), wHostPrepare, BUTTON_HP_START, dataManager.GetSysString(1215));
 	btnHostPrepCancel = env->addButton(rect<s32>(350, 280, 460, 305), wHostPrepare, BUTTON_HP_CANCEL, dataManager.GetSysString(1210));
 	//img
-	wCardImg = env->addStaticText(L"", rect<s32>(cardImgBgX, cardImgBgY, cardImgBgW, cardImgBgH), true, false, 0, -1, true);
-	wCardImg->setBackgroundColor(0xc0c0c0c0);
+	wCardImg = env->addImage(rect<s32>(cardImgX, cardImgY, cardImgW, cardImgH));
+	wCardImg->setImage(imageManager.tCover[0]);
+	wCardImg->setUseAlphaChannel(true);
 	wCardImg->setVisible(false);
-	imgCard = env->addImage(rect<s32>(cardImgX, cardImgY, cardImgW, cardImgH), wCardImg);
-	imgCard->setImage(imageManager.tCover[0]);
-	imgCard->setUseAlphaChannel(true);
 	//phase
 	wPhase = env->addStaticText(L"", rect<s32>(480, 310, 855, 330));
 	wPhase->setVisible(false);
@@ -505,7 +491,7 @@ bool Game::Initialize() {
 	wANRace = env->addWindow(rect<s32>(480, 200, 850, 410), false, dataManager.GetSysString(563));
 	wANRace->getCloseButton()->setVisible(false);
 	wANRace->setVisible(false);
-	for(int filter = 0x1, i = 0; i < RACES_COUNT; filter <<= 1, ++i)
+	for(int filter = 0x1, i = 0; i < 25; filter <<= 1, ++i)
 		chkRace[i] = env->addCheckBox(false, rect<s32>(10 + (i % 4) * 90, 25 + (i / 4) * 25, 100 + (i % 4) * 90, 50 + (i / 4) * 25),
 		                              wANRace, CHECK_RACE, dataManager.FormatRace(filter));
 	//selection hint
@@ -603,7 +589,7 @@ bool Game::Initialize() {
 	cbRace = env->addComboBox(rect<s32>(80, 40 + 75 / 6, 225, 60 + 75 / 6), wFilter, COMBOBOX_RACE);
 	cbRace->setMaxSelectionRows(10);
 	cbRace->addItem(dataManager.GetSysString(1310), 0);
-	for(int filter = 0x1; filter < (1 << RACES_COUNT); filter <<= 1)
+	for(int filter = 0x1; filter != 0x2000000; filter <<= 1)
 		cbRace->addItem(dataManager.FormatRace(filter), filter);
 	stLabel7 = env->addStaticText(dataManager.GetSysString(1322), rect<s32>(235, 22 + 50 / 6, 295, 42 + 50 / 6), false, false, wFilter);
 	ebAttack = env->addEditBox(L"", rect<s32>(290, 20 + 50 / 6, 405, 40 + 50 / 6), true, wFilter, EDITBOX_INPUTS);
@@ -1247,8 +1233,15 @@ void Game::ShowCardInfo(int code) {
 	wchar_t formatBuffer[256];
 	if(!dataManager.GetData(code, &cd))
 		memset(&cd, 0, sizeof(CardData));
-	imgCard->setImage(imageManager.GetTexture(code));
-	imgCard->setScaleImage(true);
+	
+	double screenWidth = window_size.Width;
+	double screenHeight = window_size.Height;
+
+	double width = 174 * (screenWidth / 1024);
+	double height = 254 * (screenHeight / 640);
+	wCardImg->setImage(imageManager.GetCardTexture(code, (int)width, (int)height));
+	lastSelectedCard = code;
+
 	if(cd.alias != 0 && (cd.alias - code < CARD_ARTWORK_VERSIONS_OFFSET || code - cd.alias < CARD_ARTWORK_VERSIONS_OFFSET))
 		myswprintf(formatBuffer, L"%ls[%08d]", dataManager.GetName(cd.alias), cd.alias);
 	else myswprintf(formatBuffer, L"%ls[%08d]", dataManager.GetName(code), code);
@@ -1321,7 +1314,7 @@ void Game::ShowCardInfo(int code) {
 	InitStaticText(stText, tsize.getWidth(), tsize.getHeight(), textFont, showingtext);
 }
 void Game::ClearCardInfo(int player) {
-	imgCard->setImage(imageManager.tCover[player]);
+	wCardImg->setImage(imageManager.tCover[player]);
 	stName->setText(L"");
 	stInfo->setText(L"");
 	stDataInfo->setText(L"");
@@ -1408,7 +1401,7 @@ void Game::ErrorLog(const char* msg) {
 }
 void Game::ClearTextures() {
 	matManager.mCard.setTexture(0, 0);
-	imgCard->setImage(imageManager.tCover[0]);
+	wCardImg->setImage(imageManager.tCover[0]);
 	btnPSAU->setImage();
 	btnPSDU->setImage();
 	for(int i=0; i<=4; ++i) {
@@ -1529,8 +1522,9 @@ void Game::OnResize()
 	wChat->setRelativePosition(ResizeWin(305, 615, 1020, 640, true));
 	ebChatInput->setRelativePosition(recti(3, 2, window_size.Width - wChat->getRelativePosition().UpperLeftCorner.X - 6, 22));
 
-	wCardImg->setRelativePosition(Resize(cardImgBgX, cardImgBgY, cardImgBgW, cardImgBgH));
-	imgCard->setRelativePosition(Resize(cardImgX, cardImgY, cardImgW, cardImgH));
+	wCardImg->setRelativePosition(Resize(cardImgX, cardImgY, cardImgW, cardImgH));
+	ShowCardInfo(lastSelectedCard);
+
 	wInfos->setRelativePosition(Resize(1, 275, 301, 639));
 	stName->setRelativePosition(recti(10, 10, 287 * window_size.Width / 1024, 32));
 	stInfo->setRelativePosition(recti(15, 37, 296 * window_size.Width / 1024, 60));

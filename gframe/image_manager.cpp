@@ -192,6 +192,15 @@ irr::video::ITexture* ImageManager::GetTexture(int code) {
 	else
 		return mainGame->gameConf.use_image_scale ? tUnknown : GetTextureThumb(code);
 }
+irr::video::ITexture* ImageManager::GetCardTexture(int code, int width, int height) {
+	if (code == 0)
+		return tUnknown;
+
+	char file[256];
+	sprintf(file, "pics/%d.jpg", code);
+	irr::video::ITexture* img = GetTextureFromFile(file, width, height);
+	return (img == NULL) ? tUnknown : img;
+}
 irr::video::ITexture* ImageManager::GetTextureThumb(int code) {
 	if(code == 0)
 		return tUnknown;

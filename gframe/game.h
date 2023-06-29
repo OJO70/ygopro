@@ -238,14 +238,12 @@ public:
 	bool ignore_chain;
 	bool chain_when_avail;
 
-	int cardImgBgX = 1;
-	int cardImgBgY = 1;
-	int cardImgBgW = 198;
-	int cardImgBgH = 273;
 	int cardImgX = 10;
 	int cardImgY = 9;
-	int cardImgW = 187;
+	int cardImgW = 184;
 	int cardImgH = 263;
+
+	int lastSelectedCard = 0;
 
 	bool is_building;
 	bool is_siding;
@@ -276,8 +274,7 @@ public:
 	irr::gui::CGUITTFont* lpcFont;
 	std::map<irr::gui::CGUIImageButton*, int> imageLoading;
 	//card image
-	irr::gui::IGUIStaticText* wCardImg;
-	irr::gui::IGUIImage* imgCard;
+	irr::gui::IGUIImage* wCardImg;
 	//hint text
 	irr::gui::IGUIStaticText* stHintMsg;
 	irr::gui::IGUIStaticText* stTip;
@@ -446,7 +443,7 @@ public:
 	irr::gui::IGUICheckBox* chkAttribute[7];
 	//announce race
 	irr::gui::IGUIWindow* wANRace;
-	irr::gui::IGUICheckBox* chkRace[RACES_COUNT];
+	irr::gui::IGUICheckBox* chkRace[25];
 	//cmd menu
 	irr::gui::IGUIWindow* wCmdMenu;
 	irr::gui::IGUIButton* btnActivate;

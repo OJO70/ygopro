@@ -37,6 +37,7 @@ public:
 	
 	irr::video::ITexture* GetTextureFromFile(char* file, s32 width, s32 height);
 	irr::video::ITexture* GetTexture(int code);
+	irr::video::ITexture* GetCardTexture(int code, int width, int height);
 	irr::video::ITexture* GetTextureThumb(int code);
 	irr::video::ITexture* GetTextureField(int code);
 
